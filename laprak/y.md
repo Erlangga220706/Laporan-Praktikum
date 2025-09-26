@@ -19,13 +19,7 @@ aku mengerjakan perulangan
 copy paste soal nomor 1 disini
 
 ```go
-package main
-
-func main() {
-	fmt.Println("Kode kalian disini")
-	fmt.Println("JANGAN MASUKIN >>SCREENSHOT<< KODE KALIAN DISINI")
-	fmt.Println("KALAU ADA -20 POIN LAPRAK")
-}
+rizki rlang
 ```
 
 > Output
