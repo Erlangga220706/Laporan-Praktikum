@@ -41,7 +41,7 @@ func main() {
 ```
 
 > Output
-> ![Screenshot bagian x](output/screenshot_soal2A.png)
+> ![Screenshot bagian x](output/no2.jpg)
 
 penjelasan kode
 
