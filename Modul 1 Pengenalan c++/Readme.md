@@ -88,15 +88,16 @@ int main() {
 }
 
 ```
-
 > Output
 > ![Screenshot bagian x](Output/no2.jpg)
+Buat array kata angka → ada satuan (0–19) dan puluhan (20, 30, dst.). Tujuannya biar gampang ngambil kata sesuai angka.
+Cek kondisi angka:
+Kalau < 20 langsung ambil dari array satuan.
+Kalau 20–99, ambil kata dari puluhan terus ditambah kata dari satuan kalau ada sisa satuannya.
+Kalau 100, langsung tulis "seratus".
+Main function → minta input dari user, terus panggil fungsi angkaKeTulisan() buat ubah angka ke tulisan.
+Output → tampilkan angka asli dan tulisannya (contoh: 79 : tujuh puluh sembilan).
 
-penjelasan kode
-
-Kalau adalanjutan di lanjut disini aja
-
-soal nomor 2B
 
 ```go
 package main
