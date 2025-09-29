@@ -2,11 +2,7 @@
 <p align="center"> RADITHIA ERLANGGA - 103112400096 </p>
 
 ## Dasar Teori
-
-yang panjang dikit
-
-
-
+C++ adalah bahasa pemrograman turunan dari C yang cepat, efisien, dan mendukung OOP. Struktur dasarnya terdiri dari library, fungsi main(), serta perintah. Ia menyediakan tipe data, input-output dengan cin dan cout, logika melalui if-else dan perulangan, serta fungsi dan class untuk membuat kode lebih rapi dan kompleks. Dengan dasar ini, C++ dapat digunakan untuk program sederhana hingga aplikasi besar.
 
 ### Soal 1
 
