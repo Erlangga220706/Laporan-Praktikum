@@ -260,30 +260,32 @@ Main function → minta input dari user, terus panggil fungsi angkaKeTulisan() b
 Output → tampilkan angka asli dan tulisannya (contoh: 79 : tujuh puluh sembilan).
 
 ### Soal 3
-copy paste soal nomor 1 disini
-
+Buatlah program yang dapat memberikan input dan output sbb.
 ```go
 #include <iostream>
 using namespace std;
 
 int main() {
-    float bil1, bil2;
+    int n;
+    cout << "Input: ";
+    cin >> n;
 
-    cout << "Masukkan bilangan pertama: ";
-    cin >> bil1;
-    cout << "Masukkan bilangan kedua : ";
-    cin >> bil2;
+    cout << "Output:" << endl;
 
-    cout << "\n=== Hasil Operasi Aritmatika ===" << endl;
-    cout << "Penjumlahan : " << bil1 + bil2 << endl;
-    cout << "Pengurangan : " << bil1 - bil2 << endl;
-    cout << "Perkalian   : " << bil1 * bil2 << endl;
+    for (int i = n; i >= 1; i--) {
+        for (int j = i; j >= 1; j--) {
+            cout << j;
+        }
 
-    if (bil2 != 0) {
-        cout << "Pembagian   : " << bil1 / bil2 << endl;
-    } else {
-        cout << "Pembagian   : Tidak bisa (pembagi = 0)" << endl;
+        cout << "*";
+
+        for (int j = 1; j <= i; j++) {
+            cout << j;
+        }
+
+        cout << endl;
     }
+    cout << "*" << endl;
 
     return 0;
 }
@@ -292,8 +294,7 @@ int main() {
 
 > Output
 > ![Screenshot bagian x](Output/no1.jpg)
-Program ini dibuat untuk menerima input dua bilangan float, kemudian menghitung penjumlahan, pengurangan, perkalian, dan pembagiannya. Selain itu, ditambahkan pengecekan agar pembagian tidak dilakukan jika bilangan kedua bernilai nol
-
+Program ini menggunakan perulangan bersarang untuk mencetak pola angka. Bagian kiri angka dicetak menurun, kemudian ditambahkan tanda *, dan bagian kanan dicetak menaik. Setelah semua baris selesai, ditambahkan satu baris terakhir yang hanya berisi tanda *.
 
 
 ## Referensi
