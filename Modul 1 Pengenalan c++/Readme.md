@@ -38,9 +38,7 @@ int main() {
 
 > Output
 > ![Screenshot bagian x](Output/no1.jpg)
-> %% Untuk mencantumkan screenshot, tidak boleh ada spasi di urlnya `()`, penamaan file bebas asal gak sara dan mudah dipahami aja,, dan jangan lupa hapus komen ini yah%%
-
-Penjelasan ttg kode kalian disini
+Program ini dibuat untuk menerima input dua bilangan float, kemudian menghitung penjumlahan, pengurangan, perkalian, dan pembagiannya. Selain itu, ditambahkan pengecekan agar pembagian tidak dilakukan jika bilangan kedua bernilai nol
 
 ### Soal 2
 
