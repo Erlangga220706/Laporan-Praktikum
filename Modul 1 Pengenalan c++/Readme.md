@@ -293,7 +293,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/no1.jpg)
+> ![Screenshot bagian x](Output/no3.jpg)
 Program ini menggunakan perulangan bersarang untuk mencetak pola angka. Bagian kiri angka dicetak menurun, kemudian ditambahkan tanda *, dan bagian kanan dicetak menaik. Setelah semua baris selesai, ditambahkan satu baris terakhir yang hanya berisi tanda *.
 
 
