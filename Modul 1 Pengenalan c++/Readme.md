@@ -5,13 +5,8 @@
 
 yang panjang dikit
 
-## Unguided
 
-### soal 1
 
-aku mengerjakan perulangan
-
-## Unguided
 
 ### Soal 1
 
@@ -95,7 +90,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](output/screenshot_soal2A.png)
+> ![Screenshot bagian x](Output/no2.jpg)
 
 penjelasan kode
 
