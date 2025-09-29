@@ -6,7 +6,7 @@ C++ adalah bahasa pemrograman turunan dari C yang cepat, efisien, dan mendukung 
 
 ## Guided
 
-### soal 1
+### Struct
 ```go
 #include <iostream>
 #include <string>
@@ -40,7 +40,7 @@ int main() {
 }
 ```
 
-### soal 2
+### Aritmatika
 ```go
 #include <iostream>
 using namespace std;
@@ -57,7 +57,7 @@ int main()
 }
 ```
 
-### soal 3
+### Kondisi
 ```go
 #include <iostream>
 using namespace std;
@@ -89,7 +89,7 @@ int main()
 }
 ```
 
-### soal 4
+### Perulangan
 ```go
 #include <iostream>
 using namespace std;
@@ -108,7 +108,7 @@ int main()
 }
 ```
 
-### soal 5
+### Fungsi
 ```go
 #include <iostream>
 using namespace std;
@@ -160,7 +160,7 @@ int main()
 
 ```
 
-### soal 6
+### Test
 ```go
 #include <iostream>
 using namespace std;
@@ -298,6 +298,9 @@ Program ini menggunakan perulangan bersarang untuk mencetak pola angka. Bagian k
 
 
 ## Referensi
-
-1. https://en.wikipedia.org/wiki/Data_structure (diakses blablabla)
-
+1. https://www.w3schools.com/cpp/cpp_arrays.asp
+2. https://www.w3schools.com/cpp/cpp_conditions.asp
+3. https://www.w3schools.com/cpp/cpp_conditions_else.asp
+4. https://www.w3schools.com/cpp/cpp_conditions_elseif.asp
+5. https://www.w3schools.com/cpp/cpp_variables_multiple.asp
+6. https://www.w3schools.com/cpp/cpp_for_loop.asp
