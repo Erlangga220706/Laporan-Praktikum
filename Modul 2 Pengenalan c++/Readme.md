@@ -201,44 +201,45 @@ Matriks Hasil Transpose:
 using namespace std;
 
 int main() {
-    int matrik[3][3] = {
+    int matriks[3][3] = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
-    int transpose[3][3];
 
     cout << "Matriks Awal:" << endl;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            cout << matrik[i][j] << " ";
+            cout << matriks[i][j] << " ";
         }
         cout << endl;
     }
 
     for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            transpose[j][i] = matrik[i][j];
+        for (int j = i + 1; j < 3; j++) {
+            int temp = matriks[i][j];
+            matriks[i][j] = matriks[j][i];
+            matriks[j][i] = temp;
         }
     }
 
-    cout << "\nMatriks Hasil Transpose:" << endl;
+    cout << endl;
+
+    cout << "Matriks Hasil Transpose:" << endl;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            cout << transpose[i][j] << " ";
+            cout << matriks[i][j] << " ";
         }
         cout << endl;
     }
 
     return 0;
 }
-```
 
+```
 > Output
 > ![Screenshot bagian x](Output/Output_no1.png)
-
-Program di atas Program ini berfungsi untuk melakukan **transpose** pada matriks 3x3, yaitu menukar baris menjadi kolom dan sebaliknya. Di awal, matriks `matrik` diinisialisasi dengan nilai 1–9, lalu dibuat matriks kosong `transpose` untuk menampung hasilnya. Program pertama menampilkan matriks awal, kemudian menggunakan dua perulangan untuk menukar posisi elemen dengan rumus `transpose[j][i] = matrik[i][j]`. Setelah proses selesai, hasil transpose ditampilkan, menghasilkan matriks dengan baris dan kolom yang saling bertukar posisi.
-
+Pada kode ini, proses transpose dilakukan langsung di dalam matriks yang sama dengan menukar elemen matriks[i][j] dan matriks[j][i]. Dengan cara ini, tidak perlu membuat matriks baru untuk menyimpan hasilnya.
 
 ### Soal 2
 
