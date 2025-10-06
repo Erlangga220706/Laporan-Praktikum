@@ -1,10 +1,9 @@
 # <h1 align="center">Laporan Praktikum Modul 2 <br> Pengenalan C++</h1>
-<p align="center">Zaki Hamdani - 103112400089</p>
+<p align="center">Radithia Erlangga - 103112400096</p>
 
 ## Dasar Teori
-
-Call by reference adalah metode pemanggilan fungsi di C++ di mana yang dikirim ke fungsi bukan nilai variabel, melainkan alamat memorinya. Dengan menambahkan tanda & pada parameter, fungsi dapat mengakses dan mengubah nilai asli variabel yang dikirim dari program utama. Berbeda dengan call by value yang hanya menyalin nilai, call by reference memungkinkan perubahan di dalam fungsi langsung memengaruhi variabel asli. Metode ini lebih efisien karena tidak membuat salinan data dan sering digunakan saat program perlu memodifikasi nilai variabel secara langsung.
-
+Call by Reference adalah cara memanggil fungsi di C++ di mana yang dikirim ke fungsi bukan nilai variabel, tetapi alamat memorinya. Dengan menambahkan tanda & pada parameter fungsi, maka fungsi bisa mengakses dan mengubah nilai asli dari variabel yang dikirim.
+Berbeda dengan Call by Value yang hanya menyalin nilai, Call by Reference memungkinkan perubahan di dalam fungsi langsung memengaruhi variabel asli. Metode ini lebih efisien karena tidak membuat salinan data dan sering digunakan saat program perlu mengubah nilai variabel secara langsung.
 ## Guide
 
 ## 01_Array
