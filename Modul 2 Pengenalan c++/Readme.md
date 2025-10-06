@@ -238,7 +238,7 @@ int main() {
 
 ```
 > Output
-> ![Screenshot bagian x](Output/Output_no1.png)
+> ![Screenshot bagian x](Output/week2 no 1.jpg)
 Pada kode ini, proses transpose dilakukan langsung di dalam matriks yang sama dengan menukar elemen matriks[i][j] dan matriks[j][i]. Dengan cara ini, tidak perlu membuat matriks baru untuk menyimpan hasilnya.
 
 ### Soal 2
