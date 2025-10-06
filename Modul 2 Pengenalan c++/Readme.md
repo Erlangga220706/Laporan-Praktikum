@@ -273,14 +273,14 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/Output_no2.png)
+> ![Screenshot bagian x](Output/week2_no_2.jpg)
 Program ini menggunakan call by reference dengan menambahkan tanda & pada parameter fungsi kuadratkan.
 Karena variabel dikirim melalui referensi, maka perubahan yang terjadi di dalam fungsi langsung memengaruhi nilai asli di main().
 Hasilnya, setelah fungsi dipanggil, nilai angka berubah dari 5 menjadi 25.
 
 ## Referensi
-1. https://www.w3schools.com/cpp/cpp_references.asp
-2. https://www.w3schools.com/cpp/cpp_function_reference.asp
-3. https://www.w3schools.com/cpp/cpp_function_structures.asp
-4. https://www.w3schools.com/cpp/exercise.asp?x=xrcise_function_reference1
-5. https://www.w3schools.com/cpp/cpp_function_param.asp
+1.https://www.geeksforgeeks.org/cpp-functions-pass-by-reference/
+2.https://www.programiz.com/cpp-programming/pointers-function
+3.https://www.tutorialspoint.com/cplusplus/cpp_function_call_by_reference.htm
+4.https://www.geeksforgeeks.org/references-in-cpp/
+5.https://www.ibm.com/docs/en/zos/2.4.0?topic=calls-pass-by-reference-c-only
