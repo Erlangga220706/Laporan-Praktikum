@@ -256,17 +256,17 @@ Nilai setelah dikuadratkan: 25
 using namespace std;
 
 void kuadratkan(int &x) {
-    x = x * x;
+    x = x * x; 
 }
 
 int main() {
-    int nilai = 5;
+    int angka = 5;
 
-    cout << "Nilai awal: " << nilai << endl;
+    cout << "Nilai awal: " << angka << endl;
 
-    kuadratkan(nilai);
+    kuadratkan(angka);
 
-    cout << "Nilai setelah dikuadratkan: " << nilai << endl;
+    cout << "Nilai setelah dikuadratkan: " << angka << endl;
 
     return 0;
 }
@@ -274,8 +274,9 @@ int main() {
 
 > Output
 > ![Screenshot bagian x](Output/Output_no2.png)
-
-Program ini menggunakan call by reference agar parameter x di prosedur kuadratkan langsung mengacu pada variabel asli yang dikirim dari main(). Dengan demikian, ketika x dikuadratkan (x = x * x), nilai asli variabel nilai ikut berubah. Hasilnya, setelah prosedur dipanggil, nilai nilai berubah dari 5 menjadi 25.
+Program ini menggunakan call by reference dengan menambahkan tanda & pada parameter fungsi kuadratkan.
+Karena variabel dikirim melalui referensi, maka perubahan yang terjadi di dalam fungsi langsung memengaruhi nilai asli di main().
+Hasilnya, setelah fungsi dipanggil, nilai angka berubah dari 5 menjadi 25.
 
 ## Referensi
 1. https://www.w3schools.com/cpp/cpp_references.asp
