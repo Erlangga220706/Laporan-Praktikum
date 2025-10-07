@@ -272,7 +272,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week2_no_2.jpg)
+> ![Screenshot bagian x](Output/week2_no2.jpg)
 Program ini menggunakan call by reference dengan menambahkan tanda & pada parameter fungsi kuadratkan.
 Karena variabel dikirim melalui referensi, maka perubahan yang terjadi di dalam fungsi langsung memengaruhi nilai asli di main().
 Hasilnya, setelah fungsi dipanggil, nilai angka berubah dari 5 menjadi 25.
