@@ -1,12 +1,15 @@
-# <h1 align="center">Laporan Praktikum Modul 3 <br> Pengenalan C++</h1>
+# <h1 align="center">Laporan Praktikum Modul 3 </h1>
 <p align="center">Radithia Erlangga - 103112400096</p>
 
 ## Dasar Teori
+
 Abstract Data Type (ADT) merupakan konsep penting dalam pemrograman yang mendefinisikan suatu tipe data beserta operasi-operasi dasar yang dapat dilakukan terhadap tipe tersebut tanpa memperhatikan bagaimana implementasinya. ADT berfungsi untuk memisahkan antara definisi logis dari data dengan implementasi fisiknya, sehingga memudahkan pemrograman modular dan pemeliharaan kode. Dalam ADT, setiap tipe data dapat memiliki konstruktor untuk membentuk objek baru, selector untuk mengakses komponen, serta prosedur pengubah nilai dan validasi data. Contoh ADT seperti ADT waktu yang terdiri dari jam dan tanggal, atau garis yang tersusun dari dua titik (POINT). Dengan pendekatan ini, ADT memberikan cara terstruktur untuk merepresentasikan data kompleks menggunakan operasi primitif yang terdefinisi dengan baik.
 ## Guide
+
 ## Menghitung Rata Rata
+
 ## mahasiswa.h
-'''go
+```go
 #ifndef MAHASISWA_H_INCLUDED
 #define MAHASISWA_H_INCLUDED
 
@@ -20,10 +23,10 @@ void inputMhs(mahasiswa &m);
 float rata2(mahasiswa m);
 
 #endif
-
+```
 
 ## Mahasiswa.cpp
-go
+```go
 #include "mahasiswa.h"
 #include <iostream>
 using namespace std;
@@ -42,10 +45,10 @@ float rata2(mahasiswa m)
 {
     return float(m.nilai1 + m.nilai2) / 2;
 }
-
+```
 
 ## main.cpp
-go
+```go
 #include <iostream>
 #include "mahasiswa.h"
 using namespace std;
@@ -56,16 +59,16 @@ int main(){
     cout << "rata rata = " << rata2(mhs);
     return 0;
 }
-
-
 ```
-
 
 ## Unguide
 
 ### Soal 1
-Buat program yang dapat menyimpan data mahasiswa (max. 10) ke dalam sebuah array dengan field nama, nim, uts, uas, tugas, dan nilai akhir. Nilai akhir diperoleh dari FUNGSI dengan rumus 0.3uts+0.4uas+0.3*tugas.
-'''go
+
+Buat program yang dapat menyimpan data mahasiswa (max. 10) ke dalam sebuah array
+dengan field nama, nim, uts, uas, tugas, dan nilai akhir. Nilai akhir diperoleh dari FUNGSI
+dengan rumus 0.3*uts+0.4*uas+0.3*tugas.
+```go
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -163,10 +166,11 @@ int main() {
     return 0;
 }
 
-
 ```
+
 > Output
-> ![Screenshot bagian x](Output/week2_no1.jpg)
+> ![Screenshot bagian x](Output/Output_no1.png)
+
 Program ini menampilkan menu utama agar pengguna bisa memilih:
 1️. Tambah data mahasiswa (memasukkan nama, NIM, nilai UTS, UAS, dan tugas)
 2️. Lihat semua data mahasiswa yang sudah disimpan
@@ -176,46 +180,73 @@ Setiap kali data dimasukkan, program otomatis menghitung nilai akhir dengan rumu
 0.3 * UTS + 0.4 * UAS + 0.3 * Tugas.
 Program terus berulang sampai pengguna memilih keluar (3).
 
+
 ### Soal 2
+> ![Screenshot bagian x](Output/Soal_no2.png)
 
-Buatlah program yang menunjukkan penggunaan call by reference. Buat sebuah prosedur bernama kuadratkan yang menerima satu parameter integer secara referensi (&). Prosedur ini akan mengubah nilai asli variabel yang dilewatkan dengan nilai kuadratnya. Tampilkan nilai variabel di main() sebelum dan sesudah memanggil prosedur untuk membuktikan perubahannya. 
-
-Contoh Output:
-
-Nilai awal: 5
-Nilai setelah dikuadratkan: 25
-
+# pelajaran.h
 ```go
-#include <iostream>
+#ifndef PELAJARAN_H_INCLUDED
+#define PELAJARAN_H_INCLUDED
+#include <string>
 using namespace std;
 
-void kuadratkan(int &x) {
-    x = x * x; 
+struct Pelajaran {
+    string namaMapel;
+    string kodeMapel;
+};
+
+Pelajaran create_pelajaran(string namapel, string kodepel);
+void tampil_pelajaran(Pelajaran pel);
+
+#endif
+```
+
+# pelajaran.cpp
+```go
+#include <iostream>
+#include "pelajaran.h"
+using namespace std;
+
+Pelajaran create_pelajaran(string namapel, string kodepel) {
+    Pelajaran p;
+    p.namaMapel = namapel;
+    p.kodeMapel = kodepel;
+    return p;
 }
 
+void tampil_pelajaran(Pelajaran pel) {
+    cout << "nama pelajaran : " << pel.namaMapel << endl;
+    cout << "nilai : " << pel.kodeMapel << endl;
+}
+```
+
+# main.cpp
+```go
+#include <iostream>
+#include "pelajaran.h"
+using namespace std;
+
 int main() {
-    int angka = 5;
+    string namapel = "Struktur Data";
+    string kodepel = "STD";
 
-    cout << "Nilai awal: " << angka << endl;
-
-    kuadratkan(angka);
-
-    cout << "Nilai setelah dikuadratkan: " << angka << endl;
+    Pelajaran pel = create_pelajaran(namapel, kodepel);
+    tampil_pelajaran(pel);
 
     return 0;
 }
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week2_no2.jpg)
-Program ini menggunakan call by reference dengan menambahkan tanda & pada parameter fungsi kuadratkan.
-Karena variabel dikirim melalui referensi, maka perubahan yang terjadi di dalam fungsi langsung memengaruhi nilai asli di main().
-Hasilnya, setelah fungsi dipanggil, nilai angka berubah dari 5 menjadi 25.
+> ![Screenshot bagian x](Output/Output_no2.png)
+
+Program ini merupakan penerapan konsep **Abstract Data Type (ADT)** dalam bahasa C++, yang memisahkan antara *definisi tipe data*, *implementasi fungsi*, dan *pengujian program utama*. Pada file **`pelajaran.h`**, didefinisikan tipe data `struct Pelajaran` yang memiliki dua atribut yaitu `namaMapel` dan `kodeMapel`, serta deklarasi dua fungsi `create_pelajaran()` dan `tampil_pelajaran()`. File **`pelajaran.cpp`** berisi implementasi fungsi-fungsi tersebut, di mana `create_pelajaran()` berfungsi sebagai *konstruktor* untuk membuat objek pelajaran baru dengan mengisi nama dan kode, sedangkan `tampil_pelajaran()` digunakan untuk menampilkan data pelajaran ke layar. File **`main.cpp`** berperan sebagai program utama yang menguji ADT dengan membuat objek pelajaran menggunakan fungsi `create_pelajaran()` dan menampilkannya melalui `tampil_pelajaran()`. Dengan pembagian ini, program menjadi lebih modular, mudah dikelola, serta mencerminkan penerapan prinsip dasar ADT, yaitu pemisahan antara spesifikasi dan implementasi.
+
 
 ## Referensi
-1.https://www.geeksforgeeks.org/cpp-functions-pass-by-reference/
-2.https://www.programiz.com/cpp-programming/pointers-function
-3.https://www.tutorialspoint.com/cplusplus/cpp_function_call_by_reference.htm
-4.https://www.geeksforgeeks.org/references-in-cpp/
-5.https://www.ibm.com/docs/en/zos/2.4.0?topic=calls-pass-by-reference-c-only
-
+1. https://www.w3schools.com/cpp/cpp_references.asp
+2. https://www.w3schools.com/cpp/cpp_function_reference.asp
+3. https://www.w3schools.com/cpp/cpp_function_structures.asp
+4. https://www.w3schools.com/cpp/exercise.asp?x=xrcise_function_reference1
+5. https://www.w3schools.com/cpp/cpp_function_param.asp
