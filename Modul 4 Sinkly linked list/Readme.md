@@ -308,7 +308,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no1.jpg)
+> ![Screenshot bagian x](Output/week3_no1.jpg)
 
 -Program ini menggunakan linked list untuk membuat sistem antrian pembeli.
 -Struct Pembeli berisi data nama, pesanan, dan pointer next.
