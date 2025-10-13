@@ -321,136 +321,94 @@ int main() {
 ### Soal 2
 buatlah program kode untuk membalik (reverse) singly linked list (1-2-3 menjadi 3-2-1)
 
-# pelajaran.h
+# 
 ```go
-#ifndef PELAJARAN_H_INCLUDED
-#define PELAJARAN_H_INCLUDED
-#include <string>
+#include <iostream>
 using namespace std;
 
-struct Pelajaran {
-    string namaMapel;
-    string kodeMapel;
+struct Node {
+    int data;
+    Node* next;
 };
 
-Pelajaran create_pelajaran(string namapel, string kodepel);
-void tampil_pelajaran(Pelajaran pel);
+Node* head = nullptr;
 
-#endif
-```
+void tambahNode(int nilai) {
+    Node* baru = new Node;
+    baru->data = nilai;
+    baru->next = nullptr;
 
-# pelajaran.cpp
-```go
-#include <iostream>
-#include "pelajaran.h"
-using namespace std;
-
-Pelajaran create_pelajaran(string namapel, string kodepel) {
-    Pelajaran p;
-    p.namaMapel = namapel;
-    p.kodeMapel = kodepel;
-    return p;
-}
-
-void tampil_pelajaran(Pelajaran pel) {
-    cout << "nama pelajaran : " << pel.namaMapel << endl;
-    cout << "nilai : " << pel.kodeMapel << endl;
-}
-```
-
-# main.cpp
-```go
-#include <iostream>
-#include "pelajaran.h"
-using namespace std;
-
-int main() {
-    string namapel = "Struktur Data";
-    string kodepel = "STD";
-
-    Pelajaran pel = create_pelajaran(namapel, kodepel);
-    tampil_pelajaran(pel);
-
-    return 0;
-}
-```
-
-> Output
-> ![Screenshot bagian x](Output/week3no2.jpg)
-
-Program ini merupakan contoh penerapan Abstract Data Type (ADT) dalam C++. Konsep ADT digunakan untuk memisahkan antara tipe data, fungsi, dan program utama. Pada file pelajaran.h, terdapat tipe data struct Pelajaran dengan atribut namaMapel dan kodeMapel, serta deklarasi fungsi create_pelajaran() dan tampil_pelajaran(). File pelajaran.cpp berisi isi fungsi, yaitu membuat dan menampilkan data pelajaran. Sedangkan file main.cpp digunakan untuk menguji program dengan membuat objek pelajaran dan menampilkannya. Dengan cara ini, program lebih terstruktur, mudah dipahami, dan sesuai dengan konsep dasar ADT.
-
-### Soal 3
-
-Buatlah program dengan ketentuan :
-
--2 buah array 2D integer berukuran 3x3 dan 2 buah pointer integer
--fungsi/prosedur yang menampilkan isi sebuah array integer 2D
--fungsi/prosedur yang akan menukarkan isi dari 2 array integer 2D pada posisi tertentu
--fungsi/prosedur yang akan menukarkan isi dari variabel yang ditunjuk oleh 2 buah pointerBuatlah program dengan ketentuan :
-
-```go
-#include <iostream>
-using namespace std;
-
-void tampilArray(int arr[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << arr[i][j] << "\t";
+    if (head == nullptr) {
+        head = baru;
+    } else {
+        Node* bantu = head;
+        while (bantu->next != nullptr) {
+            bantu = bantu->next;
         }
-        cout << endl;
+        bantu->next = baru;
     }
 }
 
-void tukarArrayPosisi(int arr1[3][3], int arr2[3][3], int baris, int kolom) {
-    int temp = arr1[baris][kolom];
-    arr1[baris][kolom] = arr2[baris][kolom];
-    arr2[baris][kolom] = temp;
+void tampilList() {
+    Node* bantu = head;
+    if (bantu == nullptr) {
+        cout << "List kosong.\n";
+        return;
+    }
+    cout << "Isi Linked List: ";
+    while (bantu != nullptr) {
+        cout << bantu->data << " ";
+        bantu = bantu->next;
+    }
+    cout << endl;
 }
 
-void tukarPointer(int *p1, int *p2) {
-    int temp = *p1;
-    *p1 = *p2;
-    *p2 = temp;
+void balikList() {
+    Node* prev = nullptr;
+    Node* current = head;
+    Node* next = nullptr;
+
+    while (current != nullptr) {
+        next = current->next;   
+        current->next = prev; 
+        prev = current;         
+        current = next;         
+    }
+    head = prev; 
+    cout << "Linked list berhasil dibalik!\n";
 }
 
 int main() {
-    int A[3][3] = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
+    int pilihan, nilai;
 
-    int B[3][3] = {
-        {9, 8, 7},
-        {6, 5, 4},
-        {3, 2, 1}
-    };
+    do {
+        cout << "\n=== MENU LINKED LIST ===\n";
+        cout << "1. Tambah Data\n";
+        cout << "2. Tampilkan List\n";
+        cout << "3. Balikkan List\n";
+        cout << "4. Keluar\n";
+        cout << "Pilih menu (1-4): ";
+        cin >> pilihan;
 
-    int x = 10, y = 20;
-    int *ptr1 = &x;
-    int *ptr2 = &y;
-
-    cout << "=== Array A ===" << endl;
-    tampilArray(A);
-    cout << "\n=== Array B ===" << endl;
-    tampilArray(B);
-
-    cout << "\nMenukar elemen pada posisi [1][1] (baris 2 kolom 2)...\n";
-    tukarArrayPosisi(A, B, 1, 1);
-
-    cout << "\n=== Array A setelah ditukar ===" << endl;
-    tampilArray(A);
-    cout << "\n=== Array B setelah ditukar ===" << endl;
-    tampilArray(B);
-
-    cout << "\nSebelum tukar pointer:" << endl;
-    cout << "x = " << x << ", y = " << y << endl;
-
-    tukarPointer(ptr1, ptr2);
-
-    cout << "Setelah tukar pointer:" << endl;
-    cout << "x = " << x << ", y = " << y << endl;
+        switch (pilihan) {
+            case 1:
+                cout << "Masukkan nilai: ";
+                cin >> nilai;
+                tambahNode(nilai);
+                break;
+            case 2:
+                tampilList();
+                break;
+            case 3:
+                balikList();
+                break;
+            case 4:
+                cout << "Program selesai.\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid!\n";
+        }
+    } while (pilihan != 4);
 
     return 0;
 }
@@ -458,20 +416,22 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no3.jpg)
+> ![Screenshot bagian x](Output/week3_no2.jpg)
 
-Program ini menggunakan dua array 2D berukuran 3×3 dan dua pointer integer.
-Fungsi tampilArray() digunakan untuk menampilkan isi array 2D.
-Fungsi tukarArrayPosisi() menukar elemen antara dua array pada posisi tertentu (misalnya [1][1]).
-Fungsi tukarPointer() menukar nilai dari dua variabel melalui pointer.
-Program ini menunjukkan penggunaan array 2D, pointer, dan fungsi secara terpisah, sehingga mudah dipahami dan sesuai konsep dasar pemrograman C++.
-
+-Program ini membuat singly linked list yang dapat dibalik urutannya:
+-Fungsi tambahNode() menambah data di akhir list.
+-Fungsi balikList() menggunakan tiga pointer:
+-prev untuk menyimpan node sebelumnya,
+-current untuk node saat ini,
+-next untuk menyimpan node berikutnya.
+-Setiap iterasi mengubah arah next agar menunjuk ke node sebelumnya.
+-Setelah selesai, head diarahkan ke node terakhir (yang jadi paling depan).
 
 
 ## Referensi
-1. https://www.w3schools.com/cpp/cpp_references.asp
-2. https://www.w3schools.com/cpp/cpp_function_reference.asp
-3. https://www.w3schools.com/cpp/cpp_function_structures.asp
-4. https://www.w3schools.com/cpp/exercise.asp?x=xrcise_function_reference1
-5. https://www.w3schools.com/cpp/cpp_function_param.asp
+1.https://www.w3schools.com/dsa/dsa_theory_linkedlists.php
+2.https://www.w3schools.com/dsa/dsa_algo_linkedlists_operations.php
+3.https://www.w3schools.com/dsa/dsa_data_linkedlists_types.php
+4.https://www.w3schools.com/dsa/dsa_theory_linkedlists_memory.php
+5.https://www.w3schools.com/dsa/dsa_data_queues.php
 
