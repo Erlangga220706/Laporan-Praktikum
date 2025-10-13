@@ -239,9 +239,9 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/Output_no2.png)
+> ![Screenshot bagian x](Output/week3no2.jpg)
 
-Program ini merupakan penerapan konsep **Abstract Data Type (ADT)** dalam bahasa C++, yang memisahkan antara *definisi tipe data*, *implementasi fungsi*, dan *pengujian program utama*. Pada file **`pelajaran.h`**, didefinisikan tipe data `struct Pelajaran` yang memiliki dua atribut yaitu `namaMapel` dan `kodeMapel`, serta deklarasi dua fungsi `create_pelajaran()` dan `tampil_pelajaran()`. File **`pelajaran.cpp`** berisi implementasi fungsi-fungsi tersebut, di mana `create_pelajaran()` berfungsi sebagai *konstruktor* untuk membuat objek pelajaran baru dengan mengisi nama dan kode, sedangkan `tampil_pelajaran()` digunakan untuk menampilkan data pelajaran ke layar. File **`main.cpp`** berperan sebagai program utama yang menguji ADT dengan membuat objek pelajaran menggunakan fungsi `create_pelajaran()` dan menampilkannya melalui `tampil_pelajaran()`. Dengan pembagian ini, program menjadi lebih modular, mudah dikelola, serta mencerminkan penerapan prinsip dasar ADT, yaitu pemisahan antara spesifikasi dan implementasi.
+Program ini merupakan contoh penerapan Abstract Data Type (ADT) dalam C++. Konsep ADT digunakan untuk memisahkan antara tipe data, fungsi, dan program utama. Pada file pelajaran.h, terdapat tipe data struct Pelajaran dengan atribut namaMapel dan kodeMapel, serta deklarasi fungsi create_pelajaran() dan tampil_pelajaran(). File pelajaran.cpp berisi isi fungsi, yaitu membuat dan menampilkan data pelajaran. Sedangkan file main.cpp digunakan untuk menguji program dengan membuat objek pelajaran dan menampilkannya. Dengan cara ini, program lebih terstruktur, mudah dipahami, dan sesuai dengan konsep dasar ADT.
 
 
 ## Referensi
