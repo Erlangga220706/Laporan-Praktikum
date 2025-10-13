@@ -182,7 +182,7 @@ Program terus berulang sampai pengguna memilih keluar (3).
 
 
 ### Soal 2
-> ![Screenshot bagian x](Output/Soal_no2.png)
+> ![Screenshot bagian x](Output/soalno2.jpg)
 
 # pelajaran.h
 ```go
