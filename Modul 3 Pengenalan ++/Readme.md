@@ -321,7 +321,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no1.jpg)
+> ![Screenshot bagian x](Output/week3no3.jpg)
 
 Program ini menggunakan dua array 2D berukuran 3×3 dan dua pointer integer.
 Fungsi tampilArray() digunakan untuk menampilkan isi array 2D.
