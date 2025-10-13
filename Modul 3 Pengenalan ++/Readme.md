@@ -243,6 +243,93 @@ int main() {
 
 Program ini merupakan contoh penerapan Abstract Data Type (ADT) dalam C++. Konsep ADT digunakan untuk memisahkan antara tipe data, fungsi, dan program utama. Pada file pelajaran.h, terdapat tipe data struct Pelajaran dengan atribut namaMapel dan kodeMapel, serta deklarasi fungsi create_pelajaran() dan tampil_pelajaran(). File pelajaran.cpp berisi isi fungsi, yaitu membuat dan menampilkan data pelajaran. Sedangkan file main.cpp digunakan untuk menguji program dengan membuat objek pelajaran dan menampilkannya. Dengan cara ini, program lebih terstruktur, mudah dipahami, dan sesuai dengan konsep dasar ADT.
 
+### Soal 3
+
+Buatlah program dengan ketentuan :
+
+-2 buah array 2D integer berukuran 3x3 dan 2 buah pointer integer
+-fungsi/prosedur yang menampilkan isi sebuah array integer 2D
+-fungsi/prosedur yang akan menukarkan isi dari 2 array integer 2D pada posisi tertentu
+-fungsi/prosedur yang akan menukarkan isi dari variabel yang ditunjuk oleh 2 buah pointerBuatlah program dengan ketentuan :
+
+```go
+#include <iostream>
+using namespace std;
+
+void tampilArray(int arr[3][3]) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            cout << arr[i][j] << "\t";
+        }
+        cout << endl;
+    }
+}
+
+void tukarArrayPosisi(int arr1[3][3], int arr2[3][3], int baris, int kolom) {
+    int temp = arr1[baris][kolom];
+    arr1[baris][kolom] = arr2[baris][kolom];
+    arr2[baris][kolom] = temp;
+}
+
+void tukarPointer(int *p1, int *p2) {
+    int temp = *p1;
+    *p1 = *p2;
+    *p2 = temp;
+}
+
+int main() {
+    int A[3][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    int B[3][3] = {
+        {9, 8, 7},
+        {6, 5, 4},
+        {3, 2, 1}
+    };
+
+    int x = 10, y = 20;
+    int *ptr1 = &x;
+    int *ptr2 = &y;
+
+    cout << "=== Array A ===" << endl;
+    tampilArray(A);
+    cout << "\n=== Array B ===" << endl;
+    tampilArray(B);
+
+    cout << "\nMenukar elemen pada posisi [1][1] (baris 2 kolom 2)...\n";
+    tukarArrayPosisi(A, B, 1, 1);
+
+    cout << "\n=== Array A setelah ditukar ===" << endl;
+    tampilArray(A);
+    cout << "\n=== Array B setelah ditukar ===" << endl;
+    tampilArray(B);
+
+    cout << "\nSebelum tukar pointer:" << endl;
+    cout << "x = " << x << ", y = " << y << endl;
+
+    tukarPointer(ptr1, ptr2);
+
+    cout << "Setelah tukar pointer:" << endl;
+    cout << "x = " << x << ", y = " << y << endl;
+
+    return 0;
+}
+
+```
+
+> Output
+> ![Screenshot bagian x](Output/week3no1.jpg)
+
+Program ini menggunakan dua array 2D berukuran 3×3 dan dua pointer integer.
+Fungsi tampilArray() digunakan untuk menampilkan isi array 2D.
+Fungsi tukarArrayPosisi() menukar elemen antara dua array pada posisi tertentu (misalnya [1][1]).
+Fungsi tukarPointer() menukar nilai dari dua variabel melalui pointer.
+Program ini menunjukkan penggunaan array 2D, pointer, dan fungsi secara terpisah, sehingga mudah dipahami dan sesuai konsep dasar pemrograman C++.
+
+
 
 ## Referensi
 1. https://www.w3schools.com/cpp/cpp_references.asp
