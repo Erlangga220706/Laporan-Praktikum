@@ -310,7 +310,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3_no1.jpg)
+> ![Screenshot bagian x](Output/week4_no1.jpg)
 
 Program ini menggunakan singly linked list untuk menyimpan data antrian pembeli.
 Setiap node menyimpan nama dan pesanan, lalu dihubungkan dengan pointer next.
