@@ -426,7 +426,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3_no2.jpg)
+> ![Screenshot bagian x](Output/week4_no2.jpg)
 
 Program ini memanfaatkan singly linked list untuk menyimpan daftar buku.
 Setiap node menyimpan data judul, penulis, dan ISBN.
