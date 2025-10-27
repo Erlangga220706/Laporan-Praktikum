@@ -259,253 +259,158 @@ int main() {
 
 ### Soal 1
 Buatlah ADT Doubly Linked list sebagai berikut di dalam file “Doublylist.h”:
+Doublylist.h
 ```go
+#ifndef DOUBLYLIST_H
+#define DOUBLYLIST_H
+
 #include <iostream>
 #include <string>
 using namespace std;
 
-struct Pembeli {
-    string nama;
-    string pesanan;
-    Pembeli* next;
+struct buku {
+    string judul;
+    string penulis;
+    int tahunTerbit;
 };
 
-Pembeli* front = NULL;
-Pembeli* rear = NULL;
+typedef buku infotype;
+typedef struct ElmList *address;
 
-void tambahAntrian(string nama, string pesanan) {
-    Pembeli* baru = new Pembeli();
-    baru->nama = nama;
-    baru->pesanan = pesanan;
-    baru->next = NULL;
+struct ElmList {
+    infotype info;
+    address next;
+    address prev;
+};
 
-    if (rear == NULL) {
-        front = rear = baru;
+struct List {
+    address first;
+    address last;
+};
+
+void createList(List &L);
+address alokasi(infotype x);
+void dealokasi(address &P);
+void insertLast(List &L, address P);
+void printInfo(List L);
+address findElm(List L, string judul);
+
+#endif
+
+```
+Doublylist.cpp
+```go
+#include "Doublylist.h"
+
+void createList(List &L) {
+    L.first = NULL;
+    L.last = NULL;
+}
+
+address alokasi(infotype x) {
+    address P = new ElmList;
+    P->info = x;
+    P->next = NULL;
+    P->prev = NULL;
+    return P;
+}
+
+void dealokasi(address &P) {
+    delete P;
+    P = NULL;
+}
+
+void insertLast(List &L, address P) {
+    if (L.first == NULL) {
+        L.first = P;
+        L.last = P;
     } else {
-        rear->next = baru;
-        rear = baru;
+        L.last->next = P;
+        P->prev = L.last;
+        L.last = P;
     }
-    cout << "Antrian pembeli berhasil ditambahkan.\n";
 }
 
-void layaniAntrian() {
-    if (front == NULL) {
-        cout << "Tidak ada antrian.\n";
+void printInfo(List L) {
+    address P = L.last;
+    int i = 1;
+
+    if (P == NULL) {
+        cout << "\nList kosong.\n";
         return;
     }
-    Pembeli* hapus = front;
-    front = front->next;
-    if (front == NULL)
-        rear = NULL;
-    delete hapus;
-    cout << "Antrian pertama telah dilayani.\n";
-}
 
-void tampilAntrian() {
-    if (front == NULL) {
-        cout << "Antrian kosong.\n";
-        return;
-    }
-    Pembeli* temp = front;
-    cout << "\n=== Daftar Antrian Pembeli ===\n";
-    while (temp != NULL) {
-        cout << "Nama: " << temp->nama << ", Pesanan: " << temp->pesanan << endl;
-        temp = temp->next;
+    cout << "\n=== DATA BUKU (DARI BELAKANG) ===\n";
+    while (P != NULL) {
+        cout << "Data ke-" << i << endl;
+        cout << "Judul       : " << P->info.judul << endl;
+        cout << "Penulis     : " << P->info.penulis << endl;
+        cout << "Tahun Terbit: " << P->info.tahunTerbit << endl;
+        cout << "--------------------------\n";
+        P = P->prev;
+        i++;
     }
 }
 
-void cariPembeli(string namaCari) {
-    Pembeli* temp = front;
-    bool ketemu = false;
-    while (temp != NULL) {
-        if (temp->nama == namaCari) {
-            cout << "Pembeli ditemukan: " << temp->nama 
-                 << " dengan pesanan " << temp->pesanan << endl;
-            ketemu = true;
-            break;
+address findElm(List L, string judul) {
+    address P = L.first;
+    while (P != NULL) {
+        if (P->info.judul == judul) {
+            return P;
         }
-        temp = temp->next;
+        P = P->next;
     }
-    if (!ketemu)
-        cout << "Pembeli dengan nama '" << namaCari << "' tidak ditemukan.\n";
+    return NULL;
 }
+```
+main.cpp
+```go
+#include "Doublylist.h"
 
 int main() {
-    int pilih;
-    string nama, pesanan;
+    List L;
+    createList(L);
+    infotype x;
+    address P;
+    char lagi = 'y';
 
-    do {
-        cout << "\n=== MENU ANTRIAN PEMBELI ===\n";
-        cout << "1. Tambah Antrian\n";
-        cout << "2. Layani Antrian\n";
-        cout << "3. Tampilkan Antrian\n";
-        cout << "4. Cari Nama Pembeli\n";
-        cout << "0. Keluar\n";
-        cout << "Pilih menu: ";
-        cin >> pilih;
-        cin.ignore();
+    cout << "=== PROGRAM DOUBLY LINKED LIST DATA BUKU ===" << endl;
 
-        switch (pilih) {
-            case 1:
-                cout << "Masukkan nama pembeli: "; getline(cin, nama);
-                cout << "Masukkan pesanan: "; getline(cin, pesanan);
-                tambahAntrian(nama, pesanan);
-                break;
-            case 2:
-                layaniAntrian();
-                break;
-            case 3:
-                tampilAntrian();
-                break;
-            case 4:
-                cout << "Masukkan nama pembeli yang dicari: ";
-                getline(cin, nama);
-                cariPembeli(nama);
-                break;
-            case 0:
-                cout << "Program selesai.\n";
-                break;
-            default:
-                cout << "Pilihan tidak valid.\n";
+    while (lagi == 'y' || lagi == 'Y') {
+        cout << "\nMasukkan judul buku: ";
+        getline(cin >> ws, x.judul);
+        cout << "Masukkan nama penulis: ";
+        getline(cin >> ws, x.penulis);
+        cout << "Masukkan tahun terbit: ";
+        cin >> x.tahunTerbit;
+
+        if (findElm(L, x.judul) != NULL) {
+            cout << "Judul buku sudah terdaftar!\n";
+        } else {
+            P = alokasi(x);
+            insertLast(L, P);
+            cout << "Data berhasil ditambahkan.\n";
         }
-    } while (pilih != 0);
+
+        cout << "\nTambah data lagi? (y/n): ";
+        cin >> lagi;
+    }
+
+    printInfo(L);
 
     return 0;
 }
-
-
 ```
 
 > Output
 > ![Screenshot bagian x](Output/week4_no1.jpg)
-
-Program ini menggunakan singly linked list untuk menyimpan data antrian pembeli.
-Setiap node menyimpan nama dan pesanan, lalu dihubungkan dengan pointer next.
-Data baru selalu masuk di belakang (rear) dan yang pertama keluar di depan (front).
-Fitur searching menggunakan traversal dari depan untuk menemukan nama pembeli tertentu.
-
-### Soal 2
-gunakan latihan pada pertemuan minggun ini dan tambahkan seardhing untuk mencari buku berdasarkan judul, penulis, dan ISBN
-
-# 
-```go
-#include <iostream>
-#include <string>
-using namespace std;
-
-struct Buku {
-    string judul;
-    string penulis;
-    string ISBN;
-    Buku* next;
-};
-
-Buku* head = NULL;
-
-void tambahBuku(string judul, string penulis, string ISBN) {
-    Buku* baru = new Buku();
-    baru->judul = judul;
-    baru->penulis = penulis;
-    baru->ISBN = ISBN;
-    baru->next = head;
-    head = baru;
-    cout << "Data buku berhasil ditambahkan.\n";
-}
-
-void tampilBuku() {
-    if (head == NULL) {
-        cout << "Belum ada data buku.\n";
-        return;
-    }
-    Buku* temp = head;
-    cout << "\n=== DAFTAR BUKU ===\n";
-    while (temp != NULL) {
-        cout << "Judul : " << temp->judul << endl;
-        cout << "Penulis : " << temp->penulis << endl;
-        cout << "ISBN : " << temp->ISBN << endl;
-        cout << "-------------------------\n";
-        temp = temp->next;
-    }
-}
-
-void cariBuku(string key, string tipe) {
-    Buku* temp = head;
-    bool ketemu = false;
-    while (temp != NULL) {
-        if ((tipe == "judul" && temp->judul == key) ||
-            (tipe == "penulis" && temp->penulis == key) ||
-            (tipe == "isbn" && temp->ISBN == key)) {
-            cout << "\nBuku ditemukan:\n";
-            cout << "Judul : " << temp->judul << endl;
-            cout << "Penulis : " << temp->penulis << endl;
-            cout << "ISBN : " << temp->ISBN << endl;
-            ketemu = true;
-        }
-        temp = temp->next;
-    }
-    if (!ketemu)
-        cout << "Buku tidak ditemukan berdasarkan " << tipe << ".\n";
-}
-
-int main() {
-    int pilih;
-    string judul, penulis, isbn, key, tipe;
-
-    do {
-        cout << "\n=== MENU DATA BUKU ===\n";
-        cout << "1. Tambah Buku\n";
-        cout << "2. Tampilkan Buku\n";
-        cout << "3. Cari Buku\n";
-        cout << "0. Keluar\n";
-        cout << "Pilih menu: ";
-        cin >> pilih;
-        cin.ignore();
-
-        switch (pilih) {
-            case 1:
-                cout << "Judul buku : "; getline(cin, judul);
-                cout << "Penulis    : "; getline(cin, penulis);
-                cout << "ISBN       : "; getline(cin, isbn);
-                tambahBuku(judul, penulis, isbn);
-                break;
-            case 2:
-                tampilBuku();
-                break;
-            case 3:
-                cout << "Cari berdasarkan (judul/penulis/isbn): ";
-                getline(cin, tipe);
-                cout << "Masukkan kata kunci: ";
-                getline(cin, key);
-                cariBuku(key, tipe);
-                break;
-            case 0:
-                cout << "Program selesai.\n";
-                break;
-            default:
-                cout << "Pilihan tidak valid.\n";
-        }
-    } while (pilih != 0);
-
-    return 0;
-}
-
-
-```
-
-> Output
-> ![Screenshot bagian x](Output/week4_no2.jpg)
-
-Program ini memanfaatkan singly linked list untuk menyimpan daftar buku.
-Setiap node menyimpan data judul, penulis, dan ISBN.
-Penambahan data dilakukan di awal list agar efisien.
-Fitur searching memungkinkan pencarian buku berdasarkan salah satu dari tiga atribut — membantu menemukan data dengan cepat tanpa harus membuka seluruh daftar manual.
+Program Doubly Linked List data buku ini digunakan untuk menyimpan dan menampilkan informasi buku yang terdiri dari judul, penulis, dan tahun terbit. Setiap data buku disimpan dalam node yang saling terhubung dua arah, yaitu ke node sebelumnya (prev) dan node berikutnya (next), sehingga data dapat ditelusuri dari depan maupun belakang. Program ini memungkinkan pengguna menambahkan data buku baru ke akhir list dan mengecek apakah judul buku sudah ada agar tidak duplikat. Setelah input selesai, seluruh data buku akan ditampilkan dari belakang ke depan menggunakan fungsi printInfo().
 
 
 ## Referensi
 1.https://www.w3schools.com/dsa/dsa_theory_linkedlists.php
-2.https://www.w3schools.com/dsa/dsa_algo_linkedlists_operations.php
-3.https://www.w3schools.com/dsa/dsa_data_linkedlists_types.php
+2.https://www.w3schools.com/dsa/dsa_data_linkedlists_types.php
+3.https://www.w3schools.com/dsa/dsa_algo_linkedlists_operations.php
 4.https://www.w3schools.com/dsa/dsa_theory_linkedlists_memory.php
-5.https://www.w3schools.com/dsa/dsa_data_queues.php
-
+5.https://www.w3schools.com/dsa/dsa_examples.php
 
