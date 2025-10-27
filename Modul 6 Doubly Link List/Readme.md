@@ -259,7 +259,8 @@ int main() {
 
 ### Soal 1
 Buatlah ADT Doubly Linked list sebagai berikut di dalam file “Doublylist.h”:
-Doublylist.h
+
+## Doublylist.h
 ```go
 #ifndef DOUBLYLIST_H
 #define DOUBLYLIST_H
@@ -298,7 +299,8 @@ address findElm(List L, string judul);
 #endif
 
 ```
-Doublylist.cpp
+
+## Doublylist.cpp
 ```go
 #include "Doublylist.h"
 
@@ -362,8 +364,10 @@ address findElm(List L, string judul) {
     }
     return NULL;
 }
+
 ```
-main.cpp
+
+## main.cpp
 ```go
 #include "Doublylist.h"
 
@@ -400,10 +404,11 @@ int main() {
 
     return 0;
 }
+
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week4_no1.jpg)
+> ![Screenshot bagian x](Output/week6_no1.jpg)
 Program Doubly Linked List data buku ini digunakan untuk menyimpan dan menampilkan informasi buku yang terdiri dari judul, penulis, dan tahun terbit. Setiap data buku disimpan dalam node yang saling terhubung dua arah, yaitu ke node sebelumnya (prev) dan node berikutnya (next), sehingga data dapat ditelusuri dari depan maupun belakang. Program ini memungkinkan pengguna menambahkan data buku baru ke akhir list dan mengecek apakah judul buku sudah ada agar tidak duplikat. Setelah input selesai, seluruh data buku akan ditampilkan dari belakang ke depan menggunakan fungsi printInfo().
 
 
