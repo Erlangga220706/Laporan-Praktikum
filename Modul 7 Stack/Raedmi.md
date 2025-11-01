@@ -2,63 +2,84 @@
 <p align="center">Radithia Erlangga - 103112400096</p>
 
 ## Dasar Teori
+Stack adalah salah satu struktur data yang menggunakan prinsip LIFO (Last In, First Out), yaitu elemen yang terakhir dimasukkan akan menjadi elemen pertama yang dikeluarkan. Struktur ini dapat diibaratkan seperti tumpukan piring, di mana piring yang terakhir diletakkan di atas akan diambil terlebih dahulu. Operasi utama pada stack meliputi push (menambahkan elemen ke puncak stack), pop (menghapus elemen dari puncak stack), dan peek/top (melihat elemen teratas tanpa menghapusnya). Stack banyak digunakan dalam pemrograman, seperti untuk menyimpan data sementara dalam pemanggilan fungsi (call stack), membalik urutan data, dan dalam proses evaluasi ekspresi matematika atau algoritma backtracking.
 
-Abstract Data Type (ADT) merupakan konsep penting dalam pemrograman yang mendefinisikan suatu tipe data beserta operasi-operasi dasar yang dapat dilakukan terhadap tipe tersebut tanpa memperhatikan bagaimana implementasinya. ADT berfungsi untuk memisahkan antara definisi logis dari data dengan implementasi fisiknya, sehingga memudahkan pemrograman modular dan pemeliharaan kode. Dalam ADT, setiap tipe data dapat memiliki konstruktor untuk membentuk objek baru, selector untuk mengakses komponen, serta prosedur pengubah nilai dan validasi data. Contoh ADT seperti ADT waktu yang terdiri dari jam dan tanggal, atau garis yang tersusun dari dua titik (POINT). Dengan pendekatan ini, ADT memberikan cara terstruktur untuk merepresentasikan data kompleks menggunakan operasi primitif yang terdefinisi dengan baik.
 ## Guide
+#include <iostream>
+using namespace std;
 
-## Menghitung Rata Rata
-
-## mahasiswa.h
-```go
-#ifndef MAHASISWA_H_INCLUDED
-#define MAHASISWA_H_INCLUDED
-
-struct mahasiswa
+struct Node
 {
-    char nim[10];
-    int nilai1, nilai2;
+    int data;
+    Node *next;
 };
 
-void inputMhs(mahasiswa &m);
-float rata2(mahasiswa m);
-
-#endif
-```
-
-## Mahasiswa.cpp
-```go
-#include "mahasiswa.h"
-#include <iostream>
-using namespace std;
-
-void inputMhs(mahasiswa &m)
+bool isEmpety(Node *top)
 {
-    cout << "input nama = ";
-    cin >> (m) .nim;
-    cout << "input nilai = ";
-    cin >> (m) .nilai1;
-    cout << "input niali2 = ";
-    cin >> m .nilai2;
+    return top == nullptr;
+}
+
+void push(Node *&top, int data){
+    Node *newNode = new Node;
+    newNode -> data = data;
+    newNode -> next = top;
+    top = newNode;
+}
+
+int pop(Node *&top)
+{
+    if (isEmpety(top))
+    {
+        cout << "Stack Kosong, tidak bisa pop!" << endl;
+        return 0;
+    }
+
+    int poppedData = top -> data;
+    top = top -> next;
+
+    Node *temp;
+    return poppedData;
+}
+
+void show (Node *top)
+{
+    if (isEmpety(top))
+    {
+        cout << "Stack kosong," << endl;
+        return;
+    }
+    cout << "TOP -> ";
+    Node *temp = top;
+
+    while (temp != nullptr)
+    {
+        cout << temp->data << "-> ";
+        temp = temp->next;
+    }
+
+    cout << "NULL" << endl;
 
 }
-float rata2(mahasiswa m)
+
+int main()
 {
-    return float(m.nilai1 + m.nilai2) / 2;
-}
-```
+    Node *stack = nullptr;
 
-## main.cpp
-```go
-#include <iostream>
-#include "mahasiswa.h"
-using namespace std;
+    push(stack, 10);
+    push(stack, 20);
+    push(stack, 30);
 
-int main(){
-    mahasiswa mhs;
-    inputMhs(mhs);
-    cout << "rata rata = " << rata2(mhs);
+    cout << "Menampilkan isi stack:" << endl;
+    show (stack);
+
+    cout << "pop;" << pop(stack) << endl;
+
+    cout << "Menampilkan sisa Stack:" << endl;
+    show(stack);
+
     return 0;
 }
+
 ```
 
 ## Unguide
