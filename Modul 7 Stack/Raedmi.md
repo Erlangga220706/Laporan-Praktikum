@@ -330,84 +330,128 @@ Prosedur balikStack hanya membalik isi stack supaya urutannya jadi dari kecil ke
 
 ### Soal 3
 > ![Screenshot bagian x](Output/soal3.jpg)
+## stack.h
+```go
+#ifndef STACK_H
+#define STACK_H
 
+const int MAX = 20;
+typedef int infotype;
+
+struct Stack {
+    infotype info[MAX];
+    int top;
+};
+
+void createStack(Stack &S);
+bool isFull(Stack S);
+bool isEmpty(Stack S);
+void push(Stack &S, infotype x);
+infotype pop(Stack &S);
+void printInfo(Stack S);
+void balikStack(Stack &S);
+void getInputStream(Stack &S);
+
+#endif
+```
+
+## stack.cpp
 ```go
 #include <iostream>
+#include "stack.h"
 using namespace std;
 
-void tampilArray(int arr[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << arr[i][j] << "\t";
-        }
-        cout << endl;
+void createStack(Stack &S) {
+    S.top = -1;
+}
+
+bool isFull(Stack S) {
+    return S.top == MAX - 1;
+}
+
+bool isEmpty(Stack S) {
+    return S.top == -1;
+}
+
+void push(Stack &S, infotype x) {
+    if (!isFull(S)) {
+        S.top++;
+        S.info[S.top] = x;
+    } else {
+        cout << "Stack penuh!" << endl;
     }
 }
 
-void tukarArrayPosisi(int arr1[3][3], int arr2[3][3], int baris, int kolom) {
-    int temp = arr1[baris][kolom];
-    arr1[baris][kolom] = arr2[baris][kolom];
-    arr2[baris][kolom] = temp;
+infotype pop(Stack &S) {
+    if (!isEmpty(S)) {
+        infotype x = S.info[S.top];
+        S.top--;
+        return x;
+    } else {
+        cout << "Stack kosong!" << endl;
+        return -1;
+    }
 }
 
-void tukarPointer(int *p1, int *p2) {
-    int temp = *p1;
-    *p1 = *p2;
-    *p2 = temp;
+void printInfo(Stack S) {
+    cout << "[TOP] ";
+    for (int i = S.top; i >= 0; i--) {
+        cout << S.info[i] << " ";
+    }
+    cout << endl;
 }
+
+void balikStack(Stack &S) {
+    Stack temp;
+    createStack(temp);
+    while (!isEmpty(S)) {
+        push(temp, pop(S));
+    }
+    S = temp;
+}
+
+// === Prosedur getInputStream ===
+void getInputStream(Stack &S) {
+    char c;
+    cout << "Masukkan angka (tekan ENTER untuk selesai): ";
+    while (true) {
+        c = cin.get(); // baca satu karakter
+        if (c == '\n') break; // berhenti saat tekan enter
+        if (isdigit(c)) { // hanya simpan angka
+            push(S, c - '0'); // ubah char ke int
+        }
+    }
+}
+```
+
+## main.cpp
+```go
+#include <iostream>
+#include "stack.h"
+using namespace std;
 
 int main() {
-    int A[3][3] = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
+    cout << "Hello world!" << endl;
+    Stack S;
+    createStack(S);
 
-    int B[3][3] = {
-        {9, 8, 7},
-        {6, 5, 4},
-        {3, 2, 1}
-    };
+    getInputStream(S);
+    printInfo(S);
 
-    int x = 10, y = 20;
-    int *ptr1 = &x;
-    int *ptr2 = &y;
-
-    cout << "=== Array A ===" << endl;
-    tampilArray(A);
-    cout << "\n=== Array B ===" << endl;
-    tampilArray(B);
-
-    cout << "\nMenukar elemen pada posisi [1][1] (baris 2 kolom 2)...\n";
-    tukarArrayPosisi(A, B, 1, 1);
-
-    cout << "\n=== Array A setelah ditukar ===" << endl;
-    tampilArray(A);
-    cout << "\n=== Array B setelah ditukar ===" << endl;
-    tampilArray(B);
-
-    cout << "\nSebelum tukar pointer:" << endl;
-    cout << "x = " << x << ", y = " << y << endl;
-
-    tukarPointer(ptr1, ptr2);
-
-    cout << "Setelah tukar pointer:" << endl;
-    cout << "x = " << x << ", y = " << y << endl;
+    cout << "balik stack" << endl;
+    balikStack(S);
+    printInfo(S);
 
     return 0;
 }
-
 ```
 
 > Output
 > ![Screenshot bagian x](Output/week3no3.jpg)
-
-Program ini menggunakan dua array 2D berukuran 3×3 dan dua pointer integer.
-Fungsi tampilArray() digunakan untuk menampilkan isi array 2D.
-Fungsi tukarArrayPosisi() menukar elemen antara dua array pada posisi tertentu (misalnya [1][1]).
-Fungsi tukarPointer() menukar nilai dari dua variabel melalui pointer.
-Program ini menunjukkan penggunaan array 2D, pointer, dan fungsi secara terpisah, sehingga mudah dipahami dan sesuai konsep dasar pemrograman C++.
-
+Program ini membuat stack dan membaca input angka dari user satu per satu.
+Saat pengguna mengetik angka (misalnya 4729601) dan menekan ENTER, program langsung menyimpan tiap angka ke dalam stack dari atas ke bawah.
+Lalu saat dicetak, urutannya terbalik karena stack bersifat LIFO (Last In First Out).
+Prosedur balikStack digunakan agar hasilnya bisa ditampilkan dari urutan semula.
 
 
 ## Referensi
