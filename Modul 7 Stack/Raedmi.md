@@ -87,7 +87,7 @@ int main()
 
 ### Soal 1
 > ![Screenshot bagian x](Output/soal1.jpg)
-stack.h
+## stack.h
 ```go
 #ifndef STACK_H
 #define STACK_H
@@ -109,7 +109,7 @@ void balikStack(Stack &S);
 
 #endif
 ```
-stack.cpp
+## stack.cpp
 ```go
 #include <iostream>
 #include "stack.h"
@@ -156,7 +156,7 @@ void balikStack(Stack &S) {
     S = temp;
 }
 ```
-main.cpp
+## main.cpp
 ```go
 #include <iostream>
 #include "stack.h"
@@ -192,16 +192,7 @@ int main() {
 
 > Output
 > ![Screenshot bagian x](Output/satu.jpg)
-
-Program ini menampilkan menu utama agar pengguna bisa memilih:
-1️. Tambah data mahasiswa (memasukkan nama, NIM, nilai UTS, UAS, dan tugas)
-2️. Lihat semua data mahasiswa yang sudah disimpan
-3️. Keluar dari program
-
-Setiap kali data dimasukkan, program otomatis menghitung nilai akhir dengan rumus
-0.3 * UTS + 0.4 * UAS + 0.3 * Tugas.
-Program terus berulang sampai pengguna memilih keluar (3).
-
+Program ini membuat struktur data stack yang bekerja dengan sistem LIFO (Last In First Out). Artinya, data yang terakhir dimasukkan akan keluar lebih dulu. Program bisa menambah data dengan push, menghapus data dengan pop, menampilkan isi stack dengan printInfo, dan membalik isi stack dengan balikStack. Di main, program mencoba beberapa operasi tersebut lalu menampilkan hasil sebelum dan sesudah stack dibalik.
 
 ### Soal 2
 > ![Screenshot bagian x](Output/soal2.jpg)
