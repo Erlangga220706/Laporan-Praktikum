@@ -197,64 +197,136 @@ Program ini membuat struktur data stack yang bekerja dengan sistem LIFO (Last In
 ### Soal 2
 > ![Screenshot bagian x](Output/soal2.jpg)
 
-# pelajaran.h
+## stack.h
 ```go
-#ifndef PELAJARAN_H_INCLUDED
-#define PELAJARAN_H_INCLUDED
-#include <string>
-using namespace std;
+#ifndef STACK_H
+#define STACK_H
 
-struct Pelajaran {
-    string namaMapel;
-    string kodeMapel;
+const int MAX = 20;
+typedef int infotype;
+
+struct Stack {
+    infotype info[MAX];
+    int top;
 };
 
-Pelajaran create_pelajaran(string namapel, string kodepel);
-void tampil_pelajaran(Pelajaran pel);
+void createStack(Stack &S);
+bool isFull(Stack S);
+bool isEmpty(Stack S);
+void push(Stack &S, infotype x);
+infotype pop(Stack &S);
+void printInfo(Stack S);
+void balikStack(Stack &S);
+void pushAscending(Stack &S, infotype x);
 
 #endif
 ```
 
-# pelajaran.cpp
+## stack.cpp
 ```go
 #include <iostream>
-#include "pelajaran.h"
+#include "stack.h"
 using namespace std;
 
-Pelajaran create_pelajaran(string namapel, string kodepel) {
-    Pelajaran p;
-    p.namaMapel = namapel;
-    p.kodeMapel = kodepel;
-    return p;
+void createStack(Stack &S) {
+    S.top = -1;
 }
 
-void tampil_pelajaran(Pelajaran pel) {
-    cout << "nama pelajaran : " << pel.namaMapel << endl;
-    cout << "nilai : " << pel.kodeMapel << endl;
+bool isFull(Stack S) {
+    return S.top == MAX - 1;
 }
+
+bool isEmpty(Stack S) {
+    return S.top == -1;
+}
+
+void push(Stack &S, infotype x) {
+    if (!isFull(S)) {
+        S.top++;
+        S.info[S.top] = x;
+    } else {
+        cout << "Stack penuh!" << endl;
+    }
+}
+
+infotype pop(Stack &S) {
+    if (!isEmpty(S)) {
+        infotype x = S.info[S.top];
+        S.top--;
+        return x;
+    } else {
+        cout << "Stack kosong!" << endl;
+        return -1;
+    }
+}
+
+void printInfo(Stack S) {
+    cout << "[TOP] ";
+    for (int i = S.top; i >= 0; i--) {
+        cout << S.info[i] << " ";
+    }
+    cout << endl;
+}
+
+void balikStack(Stack &S) {
+    Stack temp;
+    createStack(temp);
+    while (!isEmpty(S)) {
+        push(temp, pop(S));
+    }
+    S = temp;
+}
+
+void pushAscending(Stack &S, infotype x) {
+    Stack temp;
+    createStack(temp);
+
+    while (!isEmpty(S) && S.info[S.top] < x) {
+        push(temp, pop(S));
+    }
+
+    push(S, x);
+
+    while (!isEmpty(temp)) {
+        push(S, pop(temp));
+    }
+}
+
 ```
 
-# main.cpp
+## main.cpp
 ```go
 #include <iostream>
-#include "pelajaran.h"
+#include "stack.h"
 using namespace std;
 
 int main() {
-    string namapel = "Struktur Data";
-    string kodepel = "STD";
+    cout << "Hello world!" << endl;
+    Stack S;
+    createStack(S);
 
-    Pelajaran pel = create_pelajaran(namapel, kodepel);
-    tampil_pelajaran(pel);
+    pushAscending(S, 3);
+    pushAscending(S, 4);
+    pushAscending(S, 8);
+    pushAscending(S, 2);
+    pushAscending(S, 3);
+    pushAscending(S, 9);
+
+    printInfo(S);
+
+    cout << "balik stack" << endl;
+    balikStack(S);
+    printInfo(S);
 
     return 0;
 }
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no2.jpg)
-
-Program ini merupakan contoh penerapan Abstract Data Type (ADT) dalam C++. Konsep ADT digunakan untuk memisahkan antara tipe data, fungsi, dan program utama. Pada file pelajaran.h, terdapat tipe data struct Pelajaran dengan atribut namaMapel dan kodeMapel, serta deklarasi fungsi create_pelajaran() dan tampil_pelajaran(). File pelajaran.cpp berisi isi fungsi, yaitu membuat dan menampilkan data pelajaran. Sedangkan file main.cpp digunakan untuk menguji program dengan membuat objek pelajaran dan menampilkannya. Dengan cara ini, program lebih terstruktur, mudah dipahami, dan sesuai dengan konsep dasar ADT.
+> ![Screenshot bagian x](Output/dua.jpg)
+Program ini memakai struktur stack (tumpukan) untuk menyimpan data secara berurutan naik.
+Prosedur pushAscending memastikan setiap kali data baru dimasukkan, posisi elemen tetap tersusun naik — jadi nilai yang paling besar berada di atas (TOP).
+Prosedur balikStack hanya membalik isi stack supaya urutannya jadi dari kecil ke besar.
 
 ### Soal 3
 > ![Screenshot bagian x](Output/soal3.jpg)
