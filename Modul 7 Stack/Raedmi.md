@@ -86,104 +86,104 @@ int main()
 ## Unguide
 
 ### Soal 1
-
-Buat program yang dapat menyimpan data mahasiswa (max. 10) ke dalam sebuah array
-dengan field nama, nim, uts, uas, tugas, dan nilai akhir. Nilai akhir diperoleh dari FUNGSI
-dengan rumus 0.3*uts+0.4*uas+0.3*tugas.
+> ![Screenshot bagian x](Output/soal1.jpg)
+stack.h
 ```go
-#include <iostream>
-#include <iomanip>
-using namespace std;
+#ifndef STACK_H
+#define STACK_H
 
-struct Mahasiswa {
-    string nama;
-    string nim;
-    float uts;
-    float uas;
-    float tugas;
-    float nilaiAkhir;
+const int MAX = 20;
+
+typedef int infotype;
+
+struct Stack {
+    infotype info[MAX];
+    int top;
 };
 
-float hitungNilaiAkhir(float uts, float uas, float tugas) {
-    return 0.3 * uts + 0.4 * uas + 0.3 * tugas;
+void createStack(Stack &S);
+void push(Stack &S, infotype x);
+infotype pop(Stack &S);
+void printInfo(Stack S);
+void balikStack(Stack &S);
+
+#endif
+```
+stack.cpp
+```go
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
+void createStack(Stack &S) {
+    S.top = -1;
 }
 
+void push(Stack &S, infotype x) {
+    if (S.top < MAX - 1) {
+        S.top++;
+        S.info[S.top] = x;
+    } else {
+        cout << "Stack penuh!" << endl;
+    }
+}
+
+infotype pop(Stack &S) {
+    if (S.top >= 0) {
+        infotype x = S.info[S.top];
+        S.top--;
+        return x;
+    } else {
+        cout << "Stack kosong!" << endl;
+        return -1;
+    }
+}
+
+void printInfo(Stack S) {
+    cout << "[TOP] ";
+    for (int i = S.top; i >= 0; i--) {
+        cout << S.info[i] << " ";
+    }
+    cout << endl;
+}
+
+void balikStack(Stack &S) {
+    Stack temp;
+    createStack(temp);
+    while (S.top >= 0) {
+        push(temp, pop(S));
+    }
+    S = temp;
+}
+```
+main.cpp
+```go
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
 int main() {
-    Mahasiswa mhs[10];
-    int jumlah = 0;
-    int pilihan;
+    cout << "Hello world!" << endl;
 
-    do {
-        cout << "\n===== MENU DATA MAHASISWA =====" << endl;
-        cout << "1. Tambah Data Mahasiswa" << endl;
-        cout << "2. Tampilkan Data Mahasiswa" << endl;
-        cout << "3. Keluar" << endl;
-        cout << "Pilih menu (1-3): ";
-        cin >> pilihan;
+    Stack S;
+    createStack(S);
 
-        switch (pilihan) {
-            case 1: {
-                if (jumlah >= 10) {
-                    cout << "Data sudah penuh (maksimum 10)!" << endl;
-                    break;
-                }
+    push(S, 3);
+    push(S, 4);
+    push(S, 2);
+    push(S, 9);
+    pop(S);
+    push(S, 2);
+    push(S, 3);
+    pop(S);
+    push(S, 9);
 
-                cout << "\nMasukkan data mahasiswa ke-" << jumlah + 1 << endl;
-                cin.ignore();
-                cout << "Nama   : ";
-                getline(cin, mhs[jumlah].nama);
-                cout << "NIM    : ";
-                cin >> mhs[jumlah].nim;
-                cout << "UTS    : ";
-                cin >> mhs[jumlah].uts;
-                cout << "UAS    : ";
-                cin >> mhs[jumlah].uas;
-                cout << "Tugas  : ";
-                cin >> mhs[jumlah].tugas;
+    printInfo(S);
 
-                mhs[jumlah].nilaiAkhir = hitungNilaiAkhir(mhs[jumlah].uts, mhs[jumlah].uas, mhs[jumlah].tugas);
-                jumlah++;
+    cout << "balik stack" << endl;
+    balikStack(S);
 
-                cout << "\nData berhasil ditambahkan!\n";
-                break;
-            }
-
-            case 2: {
-                if (jumlah == 0) {
-                    cout << "\nBelum ada data mahasiswa.\n";
-                } else {
-                    cout << "\n============================================================\n";
-                    cout << left << setw(15) << "Nama"
-                         << setw(10) << "NIM"
-                         << setw(10) << "UTS"
-                         << setw(10) << "UAS"
-                         << setw(10) << "Tugas"
-                         << setw(10) << "Akhir" << endl;
-                    cout << "============================================================\n";
-
-                    for (int i = 0; i < jumlah; i++) {
-                        cout << left << setw(15) << mhs[i].nama
-                             << setw(10) << mhs[i].nim
-                             << setw(10) << mhs[i].uts
-                             << setw(10) << mhs[i].uas
-                             << setw(10) << mhs[i].tugas
-                             << setw(10) << fixed << setprecision(2) << mhs[i].nilaiAkhir
-                             << endl;
-                    }
-                    cout << "============================================================\n";
-                }
-                break;
-            }
-
-            case 3:
-                cout << "\nTerima kasih! Program selesai.\n";
-                break;
-
-            default:
-                cout << "\nPilihan tidak valid. Silakan coba lagi.\n";
-        }
-
-    } while (pilihan != 3);
+    printInfo(S);
 
     return 0;
 }
@@ -204,7 +204,7 @@ Program terus berulang sampai pengguna memilih keluar (3).
 
 
 ### Soal 2
-> ![Screenshot bagian x](Output/soalno2.jpg)
+> ![Screenshot bagian x](Output/soal2.jpg)
 
 # pelajaran.h
 ```go
@@ -266,13 +266,7 @@ int main() {
 Program ini merupakan contoh penerapan Abstract Data Type (ADT) dalam C++. Konsep ADT digunakan untuk memisahkan antara tipe data, fungsi, dan program utama. Pada file pelajaran.h, terdapat tipe data struct Pelajaran dengan atribut namaMapel dan kodeMapel, serta deklarasi fungsi create_pelajaran() dan tampil_pelajaran(). File pelajaran.cpp berisi isi fungsi, yaitu membuat dan menampilkan data pelajaran. Sedangkan file main.cpp digunakan untuk menguji program dengan membuat objek pelajaran dan menampilkannya. Dengan cara ini, program lebih terstruktur, mudah dipahami, dan sesuai dengan konsep dasar ADT.
 
 ### Soal 3
-
-Buatlah program dengan ketentuan :
-
--2 buah array 2D integer berukuran 3x3 dan 2 buah pointer integer
--fungsi/prosedur yang menampilkan isi sebuah array integer 2D
--fungsi/prosedur yang akan menukarkan isi dari 2 array integer 2D pada posisi tertentu
--fungsi/prosedur yang akan menukarkan isi dari variabel yang ditunjuk oleh 2 buah pointerBuatlah program dengan ketentuan :
+> ![Screenshot bagian x](Output/soal3.jpg)
 
 ```go
 #include <iostream>
