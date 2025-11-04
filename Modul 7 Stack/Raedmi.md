@@ -2,7 +2,7 @@
 <p align="center">Radithia Erlangga - 103112400096</p>
 
 ## Dasar Teori
-Stack adalah salah satu struktur data yang menggunakan prinsip LIFO (Last In, First Out), yaitu elemen yang terakhir dimasukkan akan menjadi elemen pertama yang dikeluarkan. Struktur ini dapat diibaratkan seperti tumpukan piring, di mana piring yang terakhir diletakkan di atas akan diambil terlebih dahulu. Operasi utama pada stack meliputi push (menambahkan elemen ke puncak stack), pop (menghapus elemen dari puncak stack), dan peek/top (melihat elemen teratas tanpa menghapusnya). Stack banyak digunakan dalam pemrograman, seperti untuk menyimpan data sementara dalam pemanggilan fungsi (call stack), membalik urutan data, dan dalam proses evaluasi ekspresi matematika atau algoritma backtracking.
+Stack adalah struktur data linear yang bekerja dengan prinsip LIFO (Last In, First Out), yaitu data yang terakhir dimasukkan akan dikeluarkan terlebih dahulu. Stack dapat diibaratkan seperti tumpukan piring, di mana piring yang terakhir ditaruh di atas akan diambil paling awal. Operasi utamanya meliputi push (menambah data ke atas stack) dan pop (menghapus data dari atas stack). Struktur ini sering digunakan dalam pemrograman untuk proses seperti rekursi, pembalikan data, dan pengelolaan memori karena kemampuannya menyimpan urutan eksekusi secara teratur.
 
 ## Guide
 ```
@@ -447,7 +447,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no3.jpg)
+> ![Screenshot bagian x](Output/tiga.jpg)
 Program ini membuat stack dan membaca input angka dari user satu per satu.
 Saat pengguna mengetik angka (misalnya 4729601) dan menekan ENTER, program langsung menyimpan tiap angka ke dalam stack dari atas ke bawah.
 Lalu saat dicetak, urutannya terbalik karena stack bersifat LIFO (Last In First Out).
@@ -455,9 +455,9 @@ Prosedur balikStack digunakan agar hasilnya bisa ditampilkan dari urutan semula.
 
 
 ## Referensi
-1. https://www.w3schools.com/cpp/cpp_references.asp
-2. https://www.w3schools.com/cpp/cpp_function_reference.asp
-3. https://www.w3schools.com/cpp/cpp_function_structures.asp
-4. https://www.w3schools.com/cpp/exercise.asp?x=xrcise_function_reference1
-5. https://www.w3schools.com/cpp/cpp_function_param.asp
+1.https://www.w3schools.com/cpp/cpp_functions.asp
+2.https://www.w3schools.com/cpp/cpp_arrays.asp
+3.https://www.w3schools.com/cpp/cpp_user_input.asp
+4.https://www.w3schools.com/cpp/cpp_while_loop.asp
+5.https://www.w3schools.com/cpp/cpp_stacks.asp
 
