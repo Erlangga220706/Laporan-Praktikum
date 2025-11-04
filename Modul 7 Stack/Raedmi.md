@@ -191,7 +191,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/week3no1.jpg)
+> ![Screenshot bagian x](Output/satu.jpg)
 
 Program ini menampilkan menu utama agar pengguna bisa memilih:
 1️. Tambah data mahasiswa (memasukkan nama, NIM, nilai UTS, UAS, dan tugas)
