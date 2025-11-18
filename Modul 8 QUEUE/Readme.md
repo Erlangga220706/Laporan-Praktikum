@@ -120,7 +120,7 @@ int main() {
 ## Unguide
 
 ### Soal 1
-> ![Screenshot bagian x](Output/soal1.jpg)
+>  ![Screenshot bagian x](Output/soalsiji.jpg)
 ## queue.h
 ```go
 #ifndef QUEUE_H
@@ -236,11 +236,11 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/satu.jpg)
+> ![Screenshot bagian x](Output/siji.jpg)
 Penjelasan Karakteristik Alternatif 1: Head selalu diam di posisi 0 (kecuali queue kosong),Tail bergerak maju saat enqueue, mundur saat dequeue,Saat dequeue: semua elemen digeser ke kiri (operasi O(n)),Kelemahan: kurang efisien untuk operasi dequeue karena harus menggeser elemen,Kelebihan: mudah dipahami dan diimplementasi
 
 ### Soal 2
-> ![Screenshot bagian x](Output/soal2.jpg)
+Buatlah implementasi ADT Queue pada file “queue.cpp” dengan menerapkan mekanisme queue Alternatif 2 (head bergerak, tail bergerak).
 
 ## queue.h
 ```go
@@ -356,10 +356,10 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/dua.jpg)
+> ![Screenshot bagian x](Output/loro.jpg)
 Penjelasan Karakteristik Alternatif 2: Head bergerak maju saat dequeue,Tail bergerak maju saat enqueue,Tidak ada penggeseran elemen seperti pada Alternatif 1,Lebih efisien karena operasi dequeue hanya O(1),Masalah: terjadi "wasted space" di depan array setelah dequeue
 ### Soal 3
-> ![Screenshot bagian x](Output/soal3.jpg)
+Buatlah implementasi ADT Queue pada file “queue.cpp” dengan menerapkan mekanisme queue Alternatif 3 (head dan tail berputar).
 ## queue.h
 ```go
 #ifndef QUEUE_H
@@ -498,7 +498,7 @@ int main() {
 }
 ```
 > Output
-> ![Screenshot bagian x](Output/tiga.jpg)
+> ![Screenshot bagian x](Output/telu.jpg)
 Penjelasan Karakteristik Alternatif 3 (Circular Queue):,Head dan tail berputar menggunakan operasi modulo (% MAX),Memanfaatkan semua space dalam array,Tidak ada wasted space seperti pada Alternatif 2
 
 
