@@ -503,11 +503,11 @@ Penjelasan Karakteristik Alternatif 3 (Circular Queue):,Head dan tail berputar m
 
 
 ## Referensi
-1.https://www.w3schools.com/cpp/cpp_functions.asp
-2.https://www.w3schools.com/cpp/cpp_arrays.asp
-3.https://www.w3schools.com/cpp/cpp_user_input.asp
-4.https://www.w3schools.com/cpp/cpp_while_loop.asp
-5.https://www.w3schools.com/cpp/cpp_stacks.asp
+1.https://www.geeksforgeeks.org/queue-data-structure/
+2.https://www.programiz.com/dsa/queue
+3.https://www.javatpoint.com/ds-queue
+4.https://www.w3schools.com/dsa/dsa_data_queues.php
+5.https://leetcode.com/tag/queue/
 
 
 
