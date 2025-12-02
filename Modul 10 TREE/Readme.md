@@ -293,7 +293,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/siji.jpg)
+> ![Screenshot bagian x](Output/jb1.jpg)
 Program di atas membuat Binary Search Tree (BST).
 Setiap angka dimasukkan ke tree:
 kalau lebih kecil masuk ke kiri,
@@ -387,7 +387,7 @@ int main() {
 
 ```
 > Output
-> ![Screenshot bagian x](Output/loro.jpg)
+> ![Screenshot bagian x](Output/jb2.jpg)
 insertNode() → memasukkan angka ke BST.
 hitungJumlahNode() → menghitung berapa banyak node dengan cara rekursif.
 hitungTotalInfo() → menjumlahkan semua nilai node.
@@ -466,16 +466,16 @@ int main() {
 
 ```
 > Output
-> ![Screenshot bagian x](Output/telu.jpg)
+> ![Screenshot bagian x](Output/jb3.jpg)
 Program ini membuat sebuah Binary Search Tree (BST) memakai struct Node yang memiliki nilai serta pointer ke anak kiri dan kanan, kemudian data dimasukkan menggunakan fungsi insertNode sehingga bentuk tree sesuai dengan gambar soal; setelah tree terbentuk, program mencetak urutan node menggunakan dua jenis traversal, yaitu pre-order (Root–Left–Right) yang menghasilkan output 6 4 2 1 3 5 7, dan post-order (Left–Right–Root) yang menghasilkan 1 3 2 5 4 7 6, sehingga program ini menunjukkan cara membaca struktur tree dari dua arah berbeda sesuai permintaan soal.
 
 
 ## Referensi
-1.https://www.geeksforgeeks.org/queue-data-structure/
-2.https://www.programiz.com/dsa/queue
-3.https://www.javatpoint.com/ds-queue
-4.https://www.w3schools.com/dsa/dsa_data_queues.php
-5.https://leetcode.com/tag/queue/
+1.https://www.geeksforgeeks.org/binary-tree-data-structure/
+2.https://www.geeksforgeeks.org/binary-search-tree-data-structure/
+3.https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+4.https://www.javatpoint.com/binary-search-tree
+5.https://www.w3schools.com/dsa/dsa_data_trees.php
 
 
 
