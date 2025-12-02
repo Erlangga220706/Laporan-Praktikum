@@ -198,7 +198,7 @@ int main()
 ## Unguide
 
 ### Soal 1
->  ![Screenshot bagian x](Output/soalsiji.jpg)
+>  ![Screenshot bagian x](Output/soalwan.jpg)
 ## queue.h
 ```go
 #ifndef QUEUE_H
@@ -318,7 +318,7 @@ int main() {
 Penjelasan Karakteristik Alternatif 1: Head selalu diam di posisi 0 (kecuali queue kosong),Tail bergerak maju saat enqueue, mundur saat dequeue,Saat dequeue: semua elemen digeser ke kiri (operasi O(n)),Kelemahan: kurang efisien untuk operasi dequeue karena harus menggeser elemen,Kelebihan: mudah dipahami dan diimplementasi
 
 ### Soal 2
-Buatlah implementasi ADT Queue pada file “queue.cpp” dengan menerapkan mekanisme queue Alternatif 2 (head bergerak, tail bergerak).
+> ![Screenshot bagian x](Output/soaltu.jpg)
 
 ## queue.h
 ```go
@@ -437,7 +437,7 @@ int main() {
 > ![Screenshot bagian x](Output/loro.jpg)
 Penjelasan Karakteristik Alternatif 2: Head bergerak maju saat dequeue,Tail bergerak maju saat enqueue,Tidak ada penggeseran elemen seperti pada Alternatif 1,Lebih efisien karena operasi dequeue hanya O(1),Masalah: terjadi "wasted space" di depan array setelah dequeue
 ### Soal 3
-Buatlah implementasi ADT Queue pada file “queue.cpp” dengan menerapkan mekanisme queue Alternatif 3 (head dan tail berputar).
+> ![Screenshot bagian x](Output/soaltre.jpg)
 ## queue.h
 ```go
 #ifndef QUEUE_H
