@@ -2,7 +2,7 @@
 <p align="center">Radithia Erlangga - 103112400096</p>
 
 ## Dasar Teori
-rekursif adalah konsep di mana sebuah fungsi atau definisi memanggil dirinya sendiri untuk menyelesaikan masalah yang lebih kecil dari masalah asli. Rekursi sering digunakan untuk menangani struktur data yang bersifat hierarkis atau memiliki pola berulang, seperti tree atau linked list. Dengan rekursi, masalah yang kompleks dapat dipecah menjadi submasalah yang lebih sederhana hingga mencapai base case, yaitu kondisi di mana pemanggilan diri dihentikan. Konsep ini memudahkan penulisan algoritma, terutama untuk traversal tree, pencarian, atau operasi-operasi lain yang mengikuti pola berulang.
+Rekursif adalah konsep di mana sebuah fungsi atau definisi memanggil dirinya sendiri untuk menyelesaikan masalah yang lebih kecil dari masalah asli. Rekursi sering digunakan untuk menangani struktur data yang bersifat hierarkis atau memiliki pola berulang, seperti tree atau linked list. Dengan rekursi, masalah yang kompleks dapat dipecah menjadi submasalah yang lebih sederhana hingga mencapai base case, yaitu kondisi di mana pemanggilan diri dihentikan. Konsep ini memudahkan penulisan algoritma, terutama untuk traversal tree, pencarian, atau operasi-operasi lain yang mengikuti pola berulang.
 ## Guide
 ```
 #include <iostream>
@@ -199,124 +199,108 @@ int main()
 
 ### Soal 1
 >  ![Screenshot bagian x](Output/soalwan.jpg)
-## queue.h
+## bstree.h
 ```go
-#ifndef QUEUE_H
-#define QUEUE_H
-
-const int MAX = 5;
+#ifndef BSTREE_H
+#define BSTREE_H
 
 typedef int infotype;
 
-struct Queue {
-    infotype info[MAX];
-    int head;
-    int tail;
+struct Node {
+    infotype info;
+    Node* left;
+    Node* right;
 };
 
-void createQueue(Queue &Q);
-bool isEmptyQueue(Queue Q);
-bool isFullQueue(Queue Q);
-void enqueue(Queue &Q, infotype x);
-infotype dequeue(Queue &Q);
-void printInfo(Queue Q);
+typedef Node* address;
+
+address alokasi(infotype x);
+void insertNode(address &root, infotype x);
+address findNode(infotype x, address root);
+void printInOrder(address root);
 
 #endif
 ```
-## queue.cpp
+## bstree.cpp
 ```go
+#include "bstree.h"
 #include <iostream>
-#include "queue.h"
 using namespace std;
 
-void createQueue(Queue &Q) {
-    Q.head = -1;
-    Q.tail = -1;
+// fungsi alokasi
+address alokasi(infotype x) {
+    address p = new Node;
+    p->info = x;
+    p->left = NULL;
+    p->right = NULL;
+    return p;
 }
 
-bool isEmptyQueue(Queue Q) {
-    return (Q.head == -1 && Q.tail == -1);
-}
-
-bool isFullQueue(Queue Q) {
-    return (Q.tail == MAX - 1);
-}
-
-void enqueue(Queue &Q, infotype x) {
-    if (isFullQueue(Q)) {
-        cout << "Queue penuh!" << endl;
-        return;
-    }
-    
-    if (isEmptyQueue(Q)) {
-        Q.head = 0;
-        Q.tail = 0;
+// prosedur insertNode (BST)
+void insertNode(address &root, infotype x) {
+    if (root == NULL) {
+        root = alokasi(x);
     } else {
-        Q.tail++;
-    }
-    Q.info[Q.tail] = x;
-}
-
-infotype dequeue(Queue &Q) {
-    infotype x;
-    if (isEmptyQueue(Q)) {
-        cout << "Queue kosong!" << endl;
-        return -1;
-    }
-    
-    x = Q.info[Q.head];
-    
-    if (Q.head == Q.tail) {
-        // Queue menjadi kosong
-        Q.head = -1;
-        Q.tail = -1;
-    } else {
-        // Head tetap diam, menggeser semua elemen ke kiri
-        for (int i = Q.head + 1; i <= Q.tail; i++) {
-            Q.info[i - 1] = Q.info[i];
+        if (x < root->info) {
+            insertNode(root->left, x);
+        } else if (x > root->info) {
+            insertNode(root->right, x);
         }
-        Q.tail--;
     }
-    return x;
 }
 
-void printInfo(Queue Q) {
-    if (isEmptyQueue(Q)) {
-        cout << Q.head << " - " << Q.tail << " | empty queue" << endl;
-    } else {
-        cout << Q.head << " - " << Q.tail << " | ";
-        for (int i = Q.head; i <= Q.tail; i++) {
-            cout << Q.info[i];
-            if (i < Q.tail) cout << " ";
-        }
-        cout << endl;
+// function findNode
+address findNode(infotype x, address root) {
+    if (root == NULL) return NULL;
+    else if (x == root->info) return root;
+    else if (x < root->info) return findNode(x, root->left);
+    else return findNode(x, root->right);
+}
+
+// prosedur printInOrder
+void printInOrder(address root) {
+    if (root != NULL) {
+        printInOrder(root->left);
+        cout << root->info << " ";
+        printInOrder(root->right);
     }
 }
+```
+## main.cpp
+```go
+#include <iostream>
+#include "bstree.h"
+
+using namespace std;
 
 int main() {
-    cout << "Hello World" << endl;
-    Queue Q;
-    createQueue(Q);
-    cout << "---" << endl;
-    cout << " H - T \t | Queue info" << endl;
-    cout << "---" << endl;
-    printInfo(Q);
-    enqueue(Q, 5); printInfo(Q);
-    enqueue(Q, 2); printInfo(Q);
-    enqueue(Q, 7); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    enqueue(Q, 4); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
+    cout << "Hello World!" << endl;
+
+    address root = NULL;
+
+    insertNode(root, 1);
+    insertNode(root, 2);
+    insertNode(root, 6);
+    insertNode(root, 4);
+    insertNode(root, 5);
+    insertNode(root, 3);
+    insertNode(root, 7);
+
+    printInOrder(root);
+
     return 0;
 }
 ```
 
 > Output
 > ![Screenshot bagian x](Output/siji.jpg)
-Penjelasan Karakteristik Alternatif 1: Head selalu diam di posisi 0 (kecuali queue kosong),Tail bergerak maju saat enqueue, mundur saat dequeue,Saat dequeue: semua elemen digeser ke kiri (operasi O(n)),Kelemahan: kurang efisien untuk operasi dequeue karena harus menggeser elemen,Kelebihan: mudah dipahami dan diimplementasi
-
+Program di atas membuat Binary Search Tree (BST).
+Setiap angka dimasukkan ke tree:
+kalau lebih kecil masuk ke kiri,
+kalau lebih besar masuk ke kanan.
+Setelah semua angka dimasukkan, program mencetak tree dengan cara in-order, sehingga hasilnya muncul urut:
+1 2 3 4 5 6 7
+Itu saja inti kerjanya.
 ### Soal 2
 > ![Screenshot bagian x](Output/soaltu.jpg)
 
