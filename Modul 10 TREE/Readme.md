@@ -304,264 +304,170 @@ Itu saja inti kerjanya.
 ### Soal 2
 > ![Screenshot bagian x](Output/soaltu.jpg)
 
-## queue.h
-```go
-#ifndef QUEUE_H
-#define QUEUE_H
-
-const int MAX = 5;
-
-typedef int infotype;
-
-struct Queue {
-    infotype info[MAX];
-    int head;
-    int tail;
-};
-
-void createQueue(Queue &Q);
-bool isEmptyQueue(Queue Q);
-bool isFullQueue(Queue Q);
-void enqueue(Queue &Q, infotype x);
-infotype dequeue(Queue &Q);
-void printInfo(Queue Q);
-
-#endif
-```
-
-## queue.cpp
+## main.cpp
 ```go
 #include <iostream>
-#include "queue.h"
 using namespace std;
 
-void createQueue(Queue &Q) {
-    Q.head = -1;
-    Q.tail = -1;
-}
+struct Node {
+    int info;
+    Node *left, *right;
+};
 
-bool isEmptyQueue(Queue Q) {
-    return (Q.head == -1 && Q.tail == -1);
-}
+typedef Node* address;
 
-bool isFullQueue(Queue Q) {
-    return (Q.tail == MAX - 1);
-}
-
-void enqueue(Queue &Q, infotype x) {
-    if (isFullQueue(Q)) {
-        cout << "Queue penuh!" << endl;
-        return;
-    }
-    
-    if (isEmptyQueue(Q)) {
-        Q.head = 0;
-        Q.tail = 0;
+/*================= FUNGSI INSERT =================*/
+void insertNode(address &root, int x) {
+    if (root == NULL) {
+        root = new Node;
+        root->info = x;
+        root->left = root->right = NULL;
+    } else if (x < root->info) {
+        insertNode(root->left, x);
     } else {
-        Q.tail++;
-    }
-    Q.info[Q.tail] = x;
-}
-
-infotype dequeue(Queue &Q) {
-    infotype x;
-    if (isEmptyQueue(Q)) {
-        cout << "Queue kosong!" << endl;
-        return -1;
-    }
-    
-    x = Q.info[Q.head];
-    
-    if (Q.head == Q.tail) {
-        // Queue menjadi kosong (hanya 1 elemen)
-        Q.head = -1;
-        Q.tail = -1;
-    } else {
-        // Head bergerak maju
-        Q.head++;
-    }
-    return x;
-}
-
-void printInfo(Queue Q) {
-    if (isEmptyQueue(Q)) {
-        cout << Q.head << " - " << Q.tail << " | empty queue" << endl;
-    } else {
-        cout << Q.head << " - " << Q.tail << " | ";
-        for (int i = Q.head; i <= Q.tail; i++) {
-            cout << Q.info[i];
-            if (i < Q.tail) cout << " ";
-        }
-        cout << endl;
+        insertNode(root->right, x);
     }
 }
 
+/*================= TRAVERSAL =================*/
+void InOrder(address root) {
+    if (root != NULL) {
+        InOrder(root->left);
+        cout << root->info << " - ";
+        InOrder(root->right);
+    }
+}
+
+/*================= 1. hitungJumlahNode =================*/
+// mengembalikan jumlah node dalam BST
+int hitungJumlahNode(address root) {
+    if (root == NULL) return 0;
+    return 1 + hitungJumlahNode(root->left) + hitungJumlahNode(root->right);
+}
+
+/*================= 2. hitungTotalInfo =================*/
+// mengembalikan total penjumlahan semua info node
+int hitungTotalInfo(address root) {
+    if (root == NULL) return 0;
+    return root->info + hitungTotalInfo(root->left) + hitungTotalInfo(root->right);
+}
+
+/*================= 3. hitungKedalaman =================*/
+// mengembalikan kedalaman maksimal pohon
+int hitungKedalaman(address root) {
+    if (root == NULL) return 0;
+    int L = hitungKedalaman(root->left);
+    int R = hitungKedalaman(root->right);
+    return 1 + (L > R ? L : R);
+}
+
+/*================= MAIN =================*/
 int main() {
     cout << "Hello World" << endl;
-    Queue Q;
-    createQueue(Q);
-    cout << "---" << endl;
-    cout << " H - T \t | Queue info" << endl;
-    cout << "---" << endl;
-    printInfo(Q);
-    enqueue(Q, 5); printInfo(Q);
-    enqueue(Q, 2); printInfo(Q);
-    enqueue(Q, 7); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    enqueue(Q, 4); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
+
+    address root = NULL;
+
+    insertNode(root,1);
+    insertNode(root,2);
+    insertNode(root,6);
+    insertNode(root,4);
+    insertNode(root,5);
+    insertNode(root,3);
+    insertNode(root,7);
+
+    InOrder(root);
+
+    cout << "\n\n";
+    cout << "kedalaman : " << hitungKedalaman(root) << endl;
+    cout << "jumlah node : " << hitungJumlahNode(root) << endl;
+    cout << "total : " << hitungTotalInfo(root) << endl;
+
     return 0;
 }
 
 ```
-
 > Output
 > ![Screenshot bagian x](Output/loro.jpg)
-Penjelasan Karakteristik Alternatif 2: Head bergerak maju saat dequeue,Tail bergerak maju saat enqueue,Tidak ada penggeseran elemen seperti pada Alternatif 1,Lebih efisien karena operasi dequeue hanya O(1),Masalah: terjadi "wasted space" di depan array setelah dequeue
+insertNode() → memasukkan angka ke BST.
+hitungJumlahNode() → menghitung berapa banyak node dengan cara rekursif.
+hitungTotalInfo() → menjumlahkan semua nilai node.
+hitungKedalaman() → mencari kedalaman maksimal pohon.
+InOrder() → mencetak node BST secara terurut.
+
 ### Soal 3
 > ![Screenshot bagian x](Output/soaltre.jpg)
-## queue.h
-```go
-#ifndef QUEUE_H
-#define QUEUE_H
-
-const int MAX = 5;
-
-typedef int infotype;
-
-struct Queue {
-    infotype info[MAX];
-    int head;
-    int tail;
-};
-
-void createQueue(Queue &Q);
-bool isEmptyQueue(Queue Q);
-bool isFullQueue(Queue Q);
-void enqueue(Queue &Q, infotype x);
-infotype dequeue(Queue &Q);
-void printInfo(Queue Q);
-
-#endif
-```
-
-## queue.cpp
+## main.cpp
 ```go
 #include <iostream>
-#include "queue.h"
 using namespace std;
 
-void createQueue(Queue &Q) {
-    Q.head = -1;
-    Q.tail = -1;
+struct Node {
+    int info;
+    Node *left, *right;
+};
+
+typedef Node* address;
+
+/*=========== INSERT (Sesuai BST) ===========*/
+void insertNode(address &root, int x) {
+    if (root == NULL) {
+        root = new Node;
+        root->info = x;
+        root->left = root->right = NULL;
+    } 
+    else if (x < root->info)
+        insertNode(root->left, x);
+    else
+        insertNode(root->right, x);
 }
 
-bool isEmptyQueue(Queue Q) {
-    return (Q.head == -1 && Q.tail == -1);
-}
-
-bool isFullQueue(Queue Q) {
-    return ((Q.tail + 1) % MAX == Q.head);
-}
-
-void enqueue(Queue &Q, infotype x) {
-    if (isFullQueue(Q)) {
-        cout << "Queue penuh!" << endl;
-        return;
-    }
-    
-    if (isEmptyQueue(Q)) {
-        Q.head = 0;
-        Q.tail = 0;
-    } else {
-        Q.tail = (Q.tail + 1) % MAX;
-    }
-    Q.info[Q.tail] = x;
-}
-
-infotype dequeue(Queue &Q) {
-    infotype x;
-    if (isEmptyQueue(Q)) {
-        cout << "Queue kosong!" << endl;
-        return -1;
-    }
-    
-    x = Q.info[Q.head];
-    
-    if (Q.head == Q.tail) {
-        // Queue menjadi kosong (hanya 1 elemen)
-        Q.head = -1;
-        Q.tail = -1;
-    } else {
-        // Head berputar maju
-        Q.head = (Q.head + 1) % MAX;
-    }
-    return x;
-}
-
-void printInfo(Queue Q) {
-    if (isEmptyQueue(Q)) {
-        cout << Q.head << " - " << Q.tail << " | empty queue" << endl;
-    } else {
-        cout << Q.head << " - " << Q.tail << " | ";
-        
-        if (Q.head <= Q.tail) {
-            // Normal case: head di kiri, tail di kanan
-            for (int i = Q.head; i <= Q.tail; i++) {
-                cout << Q.info[i];
-                if (i < Q.tail) cout << " ";
-            }
-        } else {
-            // Wrap-around case: head di kanan, tail di kiri
-            for (int i = Q.head; i < MAX; i++) {
-                cout << Q.info[i] << " ";
-            }
-            for (int i = 0; i <= Q.tail; i++) {
-                cout << Q.info[i];
-                if (i < Q.tail) cout << " ";
-            }
-        }
-        cout << endl;
+/*=========== PRE-ORDER ===========*/
+// Root - Left - Right
+void preOrder(address root) {
+    if (root != NULL) {
+        cout << root->info << " ";
+        preOrder(root->left);
+        preOrder(root->right);
     }
 }
 
+/*=========== POST-ORDER ===========*/
+// Left - Right - Root
+void postOrder(address root) {
+    if (root != NULL) {
+        postOrder(root->left);
+        postOrder(root->right);
+        cout << root->info << " ";
+    }
+}
+
+/*=========== MAIN PROGRAM ===========*/
 int main() {
-    cout << "Hello World" << endl;
-    Queue Q;
-    createQueue(Q);
-    cout << "---" << endl;
-    cout << " H - T \t | Queue info" << endl;
-    cout << "---" << endl;
-    printInfo(Q);
-    enqueue(Q, 5); printInfo(Q);
-    enqueue(Q, 2); printInfo(Q);
-    enqueue(Q, 7); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    enqueue(Q, 4); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    dequeue(Q); printInfo(Q);
-    
-    // Demonstrasi circular behavior
-    cout << "\n--- Demonstrasi Circular Behavior ---" << endl;
-    createQueue(Q);
-    enqueue(Q, 1); printInfo(Q);
-    enqueue(Q, 2); printInfo(Q);
-    enqueue(Q, 3); printInfo(Q);
-    enqueue(Q, 4); printInfo(Q);
-    dequeue(Q); printInfo(Q);  // Keluarkan 1
-    dequeue(Q); printInfo(Q);  // Keluarkan 2
-    enqueue(Q, 5); printInfo(Q);  // Masuk di posisi 0
-    enqueue(Q, 6); printInfo(Q);  // Masuk di posisi 1 (tail wrap-around)
-    
+    address root = NULL;
+
+    // memasukkan data sesuai gambar
+    insertNode(root, 6);
+    insertNode(root, 4);
+    insertNode(root, 7);
+    insertNode(root, 2);
+    insertNode(root, 5);
+    insertNode(root, 1);
+    insertNode(root, 3);
+
+    cout << "Pre-Order   : ";
+    preOrder(root);
+
+    cout << "\nPost-Order  : ";
+    postOrder(root);
+
+    cout << endl;
     return 0;
 }
+
 ```
 > Output
 > ![Screenshot bagian x](Output/telu.jpg)
-Penjelasan Karakteristik Alternatif 3 (Circular Queue):,Head dan tail berputar menggunakan operasi modulo (% MAX),Memanfaatkan semua space dalam array,Tidak ada wasted space seperti pada Alternatif 2
+Program ini membuat sebuah Binary Search Tree (BST) memakai struct Node yang memiliki nilai serta pointer ke anak kiri dan kanan, kemudian data dimasukkan menggunakan fungsi insertNode sehingga bentuk tree sesuai dengan gambar soal; setelah tree terbentuk, program mencetak urutan node menggunakan dua jenis traversal, yaitu pre-order (Root–Left–Right) yang menghasilkan output 6 4 2 1 3 5 7, dan post-order (Left–Right–Root) yang menghasilkan 1 3 2 5 4 7 6, sehingga program ini menunjukkan cara membaca struktur tree dari dua arah berbeda sesuai permintaan soal.
 
 
 ## Referensi
