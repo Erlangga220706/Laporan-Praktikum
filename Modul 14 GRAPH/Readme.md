@@ -199,7 +199,7 @@ int main()
 ## Unguide
 
 ### Soal 1
->  ![Screenshot bagian x](Output/soalwan.jpg)
+>  ![Screenshot bagian x](Output/soal.jpg)
 ## bstree.h
 ```go
 #ifndef BSTREE_H
@@ -303,7 +303,7 @@ Setelah semua angka dimasukkan, program mencetak tree dengan cara in-order, sehi
 1 2 3 4 5 6 7
 Itu saja inti kerjanya.
 ### Soal 2
-> ![Screenshot bagian x](Output/soaltu.jpg)
+Buatlah prosedur untuk menampilkanhasil penelusuran DFS. prosedur PrintDFS (Graph G, adrNode N);
 
 ## main.cpp
 ```go
@@ -396,7 +396,7 @@ hitungKedalaman() → mencari kedalaman maksimal pohon.
 InOrder() → mencetak node BST secara terurut.
 
 ### Soal 3
-> ![Screenshot bagian x](Output/soaltre.jpg)
+Buatlah prosedur untuk menampilkanhasil penelusuran DFS. prosedur PrintBFS (Graph G, adrNode N);
 ## main.cpp
 ```go
 #include <iostream>
