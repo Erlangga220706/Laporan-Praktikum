@@ -6,193 +6,119 @@ Multi linked list adalah struktur data yang menggunakan lebih dari satu pointer 
 ## Guide
 ```
 #include <iostream>
+#include <string>
 using namespace std;
 
-struct Node
+struct ChildNode
 {
-    int data;
-    Node *kiri, *kanan;
+    string info;
+    ChildNode *next;
 };
 
-Node *buatNode(int nilai)
+struct ParentNode
 {
-    Node *baru = new Node();
-    baru->data = nilai;
-    baru->kiri = baru->kanan = NULL;
-    return baru;
+    string info;
+    ChildNode *childHead;
+    ParentNode *next;
+};
+
+ParentNode *createParent(string info)
+{
+    ParentNode *newNode = new ParentNode;
+    newNode->info = info;
+    newNode->childHead = NULL;
+    newNode->next = NULL;
+    return newNode;
 }
 
-Node *insert(Node *root, int nilai)
+ChildNode *createChild(string info)
 {
-    if (root == NULL)
-        return buatNode(nilai);
-    
-    if (nilai < root->data)
-        root->kiri = insert(root->kiri, nilai);
-    else if (nilai > root->data)
-        root->kanan = insert(root->kanan, nilai);
-
-    return root;
+    ChildNode *newNode = new ChildNode;
+    newNode->info = info;
+    newNode->next = NULL;
+    return newNode;
 }
 
-Node *search(Node *root, int nilai)
+void insertParent(ParentNode *&head, string info)
 {
-    if (root == NULL || root->data == nilai)
-        return root;
-
-    if (nilai < root->data)
-        return search(root->kiri, nilai);
-
-    return search(root->kanan, nilai);
-}
-
-Node *nilaiTerkecil(Node *node)
-{
-    Node *current = node;
-    while (current && current->kiri != NULL)
-        current = current->kiri;
-
-        return current;
-}
-
-Node *hapus(Node *root, int nilai)
-{
-    if (root == NULL)
-        return root;
-
-    if (nilai < root->data)
-        root->kiri = hapus(root->kiri, nilai);
-    else if (nilai > root->data)
-        root->kanan = hapus(root->kanan, nilai);
+    ParentNode *newNode = createParent(info);
+    if (head == NULL)
+    {
+        head = newNode;
+    }
     else
     {
-        if (root->kiri == NULL)
+        ParentNode *temp = head;
+        while (temp->next != NULL)
         {
-            Node *temp = root->kanan;
-            delete root;
-            return temp;
+            temp = temp->next;
         }
-        else if (root->kanan == NULL){
-            Node *temp = root->kiri;
-            delete root;
-            return temp;
+        temp->next = newNode;
+    }
+}
+
+void insertChild(ParentNode *head, string parentInfo, string childInfo)
+{
+    ParentNode *p = head;
+    while (p != NULL && p->info != parentInfo)
+    {
+        p = p->next;
+    }
+
+    if (p != NULL)
+    {
+        ChildNode *newChild = createChild(childInfo);
+        if (p->childHead == NULL)
+        {
+            p->childHead = newChild;
         }
-        Node *temp = nilaiTerkecil(root->kanan);
-        root->data = temp->data;
-        root->kanan = hapus(root->kanan, temp->data);
-    }
-    return root;
-}
-
-Node *update(Node *root, int Lama, int baru)
-{
-    if (search(root, Lama) != NULL)
-    {
-        root = hapus(root, Lama);
-        root = insert(root, baru);
-        cout << "Data " << Lama << " diupdate menjadi " << baru << endl;
-    }
-    else
-    {
-        cout << "Data " << Lama << " tidak ditemukan!" << endl;
-    }
-    return root;
-}
-
-void preOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        cout << root->data << " ";
-        preOrder(root->kiri);
-        preOrder(root->kanan);
+        else 
+        {
+            ChildNode *c = p->childHead;
+            while (c->next != NULL)
+            {
+                c = c->next;
+            }
+            c->next = newChild;
+        }
     }
 }
 
-void inOrder(Node *root)
+void printAll(ParentNode *head)
 {
-    if (root != NULL)
+    ParentNode *p = head;
+    while (p != NULL)
     {
-        inOrder(root->kiri);
-        cout << root->data << " ";
-        inOrder(root->kanan);
-    }
-}
-
-void postOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        postOrder(root->kiri);
-        postOrder(root->kanan);
-        cout << root->data << " ";
+        cout << p->info;
+        ChildNode *c = p->childHead;
+        if (c != NULL)
+        {
+            while (c != NULL)
+            {
+                cout << " -> " << c->info;
+                c = c->next;
+            }
+        }
+        cout << endl;
+        p = p->next;
     }
 }
 
 int main()
 {
-    Node *root = NULL;
+    ParentNode *list = NULL;
 
-    cout << "=== 1. INSERT DATA ===" << endl;
-    root = insert(root, 10);
-    insert(root, 5);
-    insert(root, 20);
-    insert(root, 3);
-    insert(root, 7);
-    insert(root, 15);
-    insert(root, 25);
-    cout << "Data berhasil dimasukan.\n" << endl;
+    insertParent(list, "Parent Node 1");
+    insertParent(list, "Parent Node 2");
 
-    cout << "=== 2. TAMPILKAN TREE (TRAVELSAL) ===" << endl;
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
+    insertChild(list, "Parent Node 1", "Child Node A");
+    insertChild(list, "Parent Node 1", "Child Node B");
+    insertChild(list, "Parent Node 2", "Child Node C");
 
-    cout << "=== 3. TEST SEARCH ===" << endl;
-    int cari1 = 7, cari2 = 99;
-    cout << "Cari " << cari1 << ": " << (search(root,cari1) ? "Ketemu" : "Tidak Aada") << endl;
-    cout << "Cari " << cari2 << ": " << (search(root,cari2) ? "Ketemu" : "Tidak Aada") << endl;
-    cout << endl;
-
-    cout << "=== 4. TEST UPDATE ===" << endl;
-    root = update(root, 5, 8);
-    cout << "Hasil Order setelah update: ";
-    cout << endl;
-    cout << endl;
-
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
-
-    cout << "== 5. TEST DELETE ===" << endl;
-    cout << "Menghapus angka 20..." << endl;
-    root = hapus(root, 20);
-
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
+    printAll(list);
 
     return 0;
 }
-
 ```
 
 ## Unguide
