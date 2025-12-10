@@ -200,284 +200,478 @@ int main()
 
 ### Soal 1
 >  ![Screenshot bagian x](Output/soal.jpg)
-## bstree.h
+## graph.h
 ```go
-#ifndef BSTREE_H
-#define BSTREE_H
+#ifndef GRAPH_H
+#define GRAPH_H
 
-typedef int infotype;
+typedef char infoGraph;
 
-struct Node {
-    infotype info;
-    Node* left;
-    Node* right;
+typedef struct ElmEdge *adrEdge;
+typedef struct ElmNode *adrNode;
+
+struct ElmEdge {
+    adrNode node;
+    adrEdge next;
 };
 
-typedef Node* address;
+struct ElmNode {
+    infoGraph info;
+    int visited;
+    adrEdge firstEdge;
+    adrNode next;
+};
 
-address alokasi(infotype x);
-void insertNode(address &root, infotype x);
-address findNode(infotype x, address root);
-void printInOrder(address root);
+struct Graph {
+    adrNode first;
+};
+
+// Prosedur
+void CreateGraph(Graph &G);
+adrNode InsertNode(Graph &G, infoGraph X);
+void ConnectNode(adrNode N1, adrNode N2);
+void PrintInfoGraph(Graph G);
 
 #endif
+
+
 ```
-## bstree.cpp
+## graph.cpp
 ```go
-#include "bstree.h"
 #include <iostream>
+#include "graph.h"
 using namespace std;
 
-// fungsi alokasi
-address alokasi(infotype x) {
-    address p = new Node;
-    p->info = x;
-    p->left = NULL;
-    p->right = NULL;
-    return p;
+void CreateGraph(Graph &G) {
+    G.first = NULL;
 }
 
-// prosedur insertNode (BST)
-void insertNode(address &root, infotype x) {
-    if (root == NULL) {
-        root = alokasi(x);
+adrNode InsertNode(Graph &G, infoGraph X) {
+    adrNode P = new ElmNode;
+    P->info = X;
+    P->visited = 0;
+    P->firstEdge = NULL;
+    P->next = NULL;
+
+    if (G.first == NULL) {
+        G.first = P;
     } else {
-        if (x < root->info) {
-            insertNode(root->left, x);
-        } else if (x > root->info) {
-            insertNode(root->right, x);
+        adrNode Q = G.first;
+        while (Q->next != NULL) {
+            Q = Q->next;
         }
+        Q->next = P;
+    }
+    return P;
+}
+
+void ConnectNode(adrNode N1, adrNode N2) {
+    adrEdge E = new ElmEdge;
+    E->node = N2;
+    E->next = NULL;
+
+    if (N1->firstEdge == NULL) {
+        N1->firstEdge = E;
+    } else {
+        adrEdge T = N1->firstEdge;
+        while (T->next != NULL) {
+            T = T->next;
+        }
+        T->next = E;
     }
 }
 
-// function findNode
-address findNode(infotype x, address root) {
-    if (root == NULL) return NULL;
-    else if (x == root->info) return root;
-    else if (x < root->info) return findNode(x, root->left);
-    else return findNode(x, root->right);
-}
-
-// prosedur printInOrder
-void printInOrder(address root) {
-    if (root != NULL) {
-        printInOrder(root->left);
-        cout << root->info << " ";
-        printInOrder(root->right);
+void PrintInfoGraph(Graph G) {
+    adrNode N = G.first;
+    while (N != NULL) {
+        cout << N->info << " : ";
+        adrEdge E = N->firstEdge;
+        while (E != NULL) {
+            cout << E->node->info << " ";
+            E = E->next;
+        }
+        cout << endl;
+        N = N->next;
     }
 }
+
 ```
 ## main.cpp
 ```go
 #include <iostream>
-#include "bstree.h"
-
+#include "graph.h"
 using namespace std;
 
 int main() {
-    cout << "Hello World!" << endl;
+    Graph G;
+    CreateGraph(G);
 
-    address root = NULL;
+    // Insert Node
+    adrNode A = InsertNode(G, 'A');
+    adrNode B = InsertNode(G, 'B');
+    adrNode C = InsertNode(G, 'C');
+    adrNode D = InsertNode(G, 'D');
+    adrNode E = InsertNode(G, 'E');
+    adrNode F = InsertNode(G, 'F');
+    adrNode Gg = InsertNode(G, 'G');
+    adrNode H = InsertNode(G, 'H');
 
-    insertNode(root, 1);
-    insertNode(root, 2);
-    insertNode(root, 6);
-    insertNode(root, 4);
-    insertNode(root, 5);
-    insertNode(root, 3);
-    insertNode(root, 7);
+    // Connect sesuai gambar
+    ConnectNode(A, B);
+    ConnectNode(A, C);
 
-    printInOrder(root);
+    ConnectNode(B, D);
+    ConnectNode(B, E);
+
+    ConnectNode(C, F);
+    ConnectNode(C, Gg);
+
+    ConnectNode(E, H);
+    ConnectNode(F, H);
+    ConnectNode(Gg, H);
+
+    // Print Graph
+    cout << "=== Representasi Graph ===" << endl;
+    PrintInfoGraph(G);
 
     return 0;
 }
+
 ```
 
 > Output
-> ![Screenshot bagian x](Output/jb1.jpg)
-Program di atas membuat Binary Search Tree (BST).
-Setiap angka dimasukkan ke tree:
-kalau lebih kecil masuk ke kiri,
-kalau lebih besar masuk ke kanan.
-Setelah semua angka dimasukkan, program mencetak tree dengan cara in-order, sehingga hasilnya muncul urut:
-1 2 3 4 5 6 7
-Itu saja inti kerjanya.
+> ![Screenshot bagian x](Output/ssno1.jpg)
+InsertNode → menambahkan simpul (vertex).
+ConnectNode → membuat edge (hubungan) dari satu node ke node lain.
+PrintInfoGraph → menampilkan adjacency list.
 ### Soal 2
 Buatlah prosedur untuk menampilkanhasil penelusuran DFS. prosedur PrintDFS (Graph G, adrNode N);
 
-## main.cpp
+## graph.h
 ```go
-#include <iostream>
-using namespace std;
+#ifndef GRAPH_H
+#define GRAPH_H
 
-struct Node {
-    int info;
-    Node *left, *right;
+typedef char infoGraph;
+
+typedef struct ElmEdge *adrEdge;
+typedef struct ElmNode *adrNode;
+
+struct ElmEdge {
+    adrNode node;
+    adrEdge next;
 };
 
-typedef Node* address;
+struct ElmNode {
+    infoGraph info;
+    int visited;
+    adrEdge firstEdge;
+    adrNode next;
+};
 
-/*================= FUNGSI INSERT =================*/
-void insertNode(address &root, int x) {
-    if (root == NULL) {
-        root = new Node;
-        root->info = x;
-        root->left = root->right = NULL;
-    } else if (x < root->info) {
-        insertNode(root->left, x);
+struct Graph {
+    adrNode first;
+};
+
+void CreateGraph(Graph &G);
+adrNode InsertNode(Graph &G, infoGraph X);
+void ConnectNode(adrNode N1, adrNode N2);
+void PrintInfoGraph(Graph G);
+
+// nomor 2
+void PrintDFS(Graph &G, adrNode N);
+void resetVisited(Graph &G);
+
+#endif
+
+```
+## graph.cpp
+```go
+#include <iostream>
+#include "graph.h"
+using namespace std;
+
+void CreateGraph(Graph &G) {
+    G.first = NULL;
+}
+
+adrNode InsertNode(Graph &G, infoGraph X) {
+    adrNode P = new ElmNode;
+    P->info = X;
+    P->visited = 0;
+    P->firstEdge = NULL;
+    P->next = NULL;
+
+    if (G.first == NULL) {
+        G.first = P;
     } else {
-        insertNode(root->right, x);
+        adrNode Q = G.first;
+        while (Q->next != NULL) {
+            Q = Q->next;
+        }
+        Q->next = P;
+    }
+    return P;
+}
+
+void ConnectNode(adrNode N1, adrNode N2) {
+    adrEdge E = new ElmEdge;
+    E->node = N2;
+    E->next = NULL;
+
+    if (N1->firstEdge == NULL) {
+        N1->firstEdge = E;
+    } else {
+        adrEdge T = N1->firstEdge;
+        while (T->next != NULL) {
+            T = T->next;
+        }
+        T->next = E;
     }
 }
 
-/*================= TRAVERSAL =================*/
-void InOrder(address root) {
-    if (root != NULL) {
-        InOrder(root->left);
-        cout << root->info << " - ";
-        InOrder(root->right);
+void PrintInfoGraph(Graph G) {
+    adrNode N = G.first;
+    while (N != NULL) {
+        cout << N->info << " : ";
+        adrEdge E = N->firstEdge;
+        while (E != NULL) {
+            cout << E->node->info << " ";
+            E = E->next;
+        }
+        cout << endl;
+        N = N->next;
     }
 }
 
-/*================= 1. hitungJumlahNode =================*/
-// mengembalikan jumlah node dalam BST
-int hitungJumlahNode(address root) {
-    if (root == NULL) return 0;
-    return 1 + hitungJumlahNode(root->left) + hitungJumlahNode(root->right);
+// ---------------------- Nomor 2 (DFS) ---------------------- //
+
+void resetVisited(Graph &G) {
+    adrNode P = G.first;
+    while (P != NULL) {
+        P->visited = 0;
+        P = P->next;
+    }
 }
 
-/*================= 2. hitungTotalInfo =================*/
-// mengembalikan total penjumlahan semua info node
-int hitungTotalInfo(address root) {
-    if (root == NULL) return 0;
-    return root->info + hitungTotalInfo(root->left) + hitungTotalInfo(root->right);
-}
+void PrintDFS(Graph &G, adrNode N) {
+    if (N == NULL) return;
 
-/*================= 3. hitungKedalaman =================*/
-// mengembalikan kedalaman maksimal pohon
-int hitungKedalaman(address root) {
-    if (root == NULL) return 0;
-    int L = hitungKedalaman(root->left);
-    int R = hitungKedalaman(root->right);
-    return 1 + (L > R ? L : R);
-}
+    cout << N->info << " ";
+    N->visited = 1;
 
-/*================= MAIN =================*/
-int main() {
-    cout << "Hello World" << endl;
-
-    address root = NULL;
-
-    insertNode(root,1);
-    insertNode(root,2);
-    insertNode(root,6);
-    insertNode(root,4);
-    insertNode(root,5);
-    insertNode(root,3);
-    insertNode(root,7);
-
-    InOrder(root);
-
-    cout << "\n\n";
-    cout << "kedalaman : " << hitungKedalaman(root) << endl;
-    cout << "jumlah node : " << hitungJumlahNode(root) << endl;
-    cout << "total : " << hitungTotalInfo(root) << endl;
-
-    return 0;
+    adrEdge E = N->firstEdge;
+    while (E != NULL) {
+        if (E->node->visited == 0) {
+            PrintDFS(G, E->node);
+        }
+        E = E->next;
+    }
 }
 
 ```
-> Output
-> ![Screenshot bagian x](Output/jb2.jpg)
-insertNode() → memasukkan angka ke BST.
-hitungJumlahNode() → menghitung berapa banyak node dengan cara rekursif.
-hitungTotalInfo() → menjumlahkan semua nilai node.
-hitungKedalaman() → mencari kedalaman maksimal pohon.
-InOrder() → mencetak node BST secara terurut.
+## main.cpp
+```go
+#include <iostream>
+#include "graph.h"
+using namespace std;
 
+int main() {
+    Graph G;
+    CreateGraph(G);
+
+    // Insert Node sesuai gambar
+    adrNode A = InsertNode(G, 'A');
+    adrNode B = InsertNode(G, 'B');
+    adrNode C = InsertNode(G, 'C');
+    adrNode D = InsertNode(G, 'D');
+    adrNode E = InsertNode(G, 'E');
+    adrNode F = InsertNode(G, 'F');
+    adrNode Gg = InsertNode(G, 'G');
+    adrNode H = InsertNode(G, 'H');
+
+    // Connect Node sesuai graf
+    ConnectNode(A, B);
+    ConnectNode(A, C);
+
+    ConnectNode(B, D);
+    ConnectNode(B, E);
+
+    ConnectNode(C, F);
+    ConnectNode(C, Gg);
+
+    ConnectNode(E, H);
+    ConnectNode(F, H);
+    ConnectNode(Gg, H);
+
+    cout << "=== Representasi Graph (Adjacency List) ===" << endl;
+    PrintInfoGraph(G);
+
+    cout << "\n=== Hasil DFS dimulai dari node A ===" << endl;
+    resetVisited(G);
+    PrintDFS(G, A);
+
+    cout << endl << endl;
+    return 0;
+}
+
+
+```
+
+> Output
+> ![Screenshot bagian x](Output/ssno2.jpg)
+PrintDFS adalah prosedur penelusuran graf yang dilakukan secara mendalam, yaitu mulai dari simpul awal lalu langsung masuk ke simpul berikutnya terus menerus sampai tidak ada jalur lagi. Setiap simpul yang dikunjungi diberi tanda agar tidak dikunjungi dua kali, kemudian proses dilanjutkan secara rekursif ke tetangga yang belum dikunjungi. Dengan cara ini, DFS menelusuri graf seperti menelusuri jalan sampai ke ujung dulu, baru kembali dan melanjutkan ke jalur lainnya.
 ### Soal 3
 Buatlah prosedur untuk menampilkanhasil penelusuran DFS. prosedur PrintBFS (Graph G, adrNode N);
 ## main.cpp
 ```go
 #include <iostream>
+#include <queue>
 using namespace std;
 
-struct Node {
-    int info;
-    Node *left, *right;
+struct Node;
+struct Adj {
+    Node* node;
+    Adj* next;
 };
 
-typedef Node* address;
+struct Node {
+    char info;
+    Adj* adj;
+    Node* next;
+};
 
-/*=========== INSERT (Sesuai BST) ===========*/
-void insertNode(address &root, int x) {
-    if (root == NULL) {
-        root = new Node;
-        root->info = x;
-        root->left = root->right = NULL;
-    } 
-    else if (x < root->info)
-        insertNode(root->left, x);
-    else
-        insertNode(root->right, x);
+struct Graph {
+    Node* first;
+};
+
+// ------------------- CREATE GRAPH -------------------
+void createGraph(Graph &G) {
+    G.first = NULL;
 }
 
-/*=========== PRE-ORDER ===========*/
-// Root - Left - Right
-void preOrder(address root) {
-    if (root != NULL) {
-        cout << root->info << " ";
-        preOrder(root->left);
-        preOrder(root->right);
+// ------------------- FIND NODE -------------------
+Node* findNode(Graph G, char x) {
+    Node* p = G.first;
+    while (p != NULL) {
+        if (p->info == x) return p;
+        p = p->next;
     }
+    return NULL;
 }
 
-/*=========== POST-ORDER ===========*/
-// Left - Right - Root
-void postOrder(address root) {
-    if (root != NULL) {
-        postOrder(root->left);
-        postOrder(root->right);
-        cout << root->info << " ";
+// ------------------- ADD NODE -------------------
+void addNode(Graph &G, char x) {
+    if(findNode(G, x) != NULL) return; // node sudah ada
+    Node* p = new Node;
+    p->info = x;
+    p->adj = NULL;
+    p->next = G.first;
+    G.first = p;
+}
+
+// ------------------- ADD EDGE -------------------
+void addEdge(Graph &G, char src, char dst) {
+    Node* p = findNode(G, src);
+    Node* q = findNode(G, dst);
+
+    if (p == NULL || q == NULL) {
+        cout << "Node tidak ditemukan!\n";
+        return;
     }
+
+    Adj* a = new Adj;
+    a->node = q;
+    a->next = p->adj;
+    p->adj = a;
 }
 
-/*=========== MAIN PROGRAM ===========*/
-int main() {
-    address root = NULL;
+// ------------------- PRINT BFS -------------------
+void PrintBFS(Graph G, Node* start) {
+    if (!start) return;
 
-    // memasukkan data sesuai gambar
-    insertNode(root, 6);
-    insertNode(root, 4);
-    insertNode(root, 7);
-    insertNode(root, 2);
-    insertNode(root, 5);
-    insertNode(root, 1);
-    insertNode(root, 3);
+    bool visited[256] = {false};
+    queue<Node*> Q;
 
-    cout << "Pre-Order   : ";
-    preOrder(root);
+    Q.push(start);
+    visited[start->info] = true;
 
-    cout << "\nPost-Order  : ";
-    postOrder(root);
+    cout << "BFS : ";
+    while (!Q.empty()) {
+        Node* curr = Q.front(); Q.pop();
+        cout << curr->info << " ";
 
+        Adj* a = curr->adj;
+        while (a != NULL) {
+            if (!visited[a->node->info]) {
+                visited[a->node->info] = true;
+                Q.push(a->node);
+            }
+            a = a->next;
+        }
+    }
     cout << endl;
+}
+
+// ------------------- PRINT DFS -------------------
+void PrintDFSUtil(Node* n, bool visited[]) {
+    if (!n) return;
+    visited[n->info] = true;
+    cout << n->info << " ";
+
+    Adj* a = n->adj;
+    while (a != NULL) {
+        if (!visited[a->node->info]) {
+            PrintDFSUtil(a->node, visited);
+        }
+        a = a->next;
+    }
+}
+
+void PrintDFS(Graph G, Node* start) {
+    bool visited[256] = {false};
+    cout << "DFS : ";
+    PrintDFSUtil(start, visited);
+    cout << endl;
+}
+
+// ------------------- MAIN -------------------
+int main() {
+    Graph G;
+    createGraph(G);
+
+    // contoh node
+    addNode(G, 'A');
+    addNode(G, 'B');
+    addNode(G, 'C');
+    addNode(G, 'D');
+    addNode(G, 'E');
+
+    // contoh edge
+    addEdge(G, 'A', 'B');
+    addEdge(G, 'A', 'C');
+    addEdge(G, 'B', 'D');
+    addEdge(G, 'C', 'E');
+
+    Node* start = findNode(G, 'A');
+
+    PrintDFS(G, start);
+    PrintBFS(G, start);
+
     return 0;
 }
 
 ```
 > Output
-> ![Screenshot bagian x](Output/jb3.jpg)
-Program ini membuat sebuah Binary Search Tree (BST) memakai struct Node yang memiliki nilai serta pointer ke anak kiri dan kanan, kemudian data dimasukkan menggunakan fungsi insertNode sehingga bentuk tree sesuai dengan gambar soal; setelah tree terbentuk, program mencetak urutan node menggunakan dua jenis traversal, yaitu pre-order (Root–Left–Right) yang menghasilkan output 6 4 2 1 3 5 7, dan post-order (Left–Right–Root) yang menghasilkan 1 3 2 5 4 7 6, sehingga program ini menunjukkan cara membaca struktur tree dari dua arah berbeda sesuai permintaan soal.
-
+> ![Screenshot bagian x](Output/ssno3.jpg)
+PrintBFS adalah prosedur penelusuran graf yang dilakukan secara melebar, yaitu mulai dari simpul awal lalu mengunjungi semua tetangganya terlebih dahulu. BFS menggunakan struktur data queue untuk mengantri simpul yang akan dikunjungi, sehingga simpul yang masuk duluan akan diproses dulu. Dengan cara ini, BFS menelusuri graf berdasarkan urutan tingkat atau level, sehingga semua simpul terdekat dari titik awal akan dikunjungi lebih dulu sebelum lanjut ke simpul lain.
 
 ## Referensi
-1.https://www.geeksforgeeks.org/binary-tree-data-structure/
-2.https://www.geeksforgeeks.org/binary-search-tree-data-structure/
-3.https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
-4.https://www.javatpoint.com/binary-search-tree
-5.https://www.w3schools.com/dsa/dsa_data_trees.php
-
+1.https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
+2.https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+3.https://visualgo.net/en/dfsbfs
+4.https://www.programiz.com/dsa/graph-dfs
+5.https://www.programiz.com/dsa/graph-bfs
 
 
 
