@@ -123,277 +123,424 @@ int main()
 
 ## Unguide
 
-### Soal 1
->  ![Screenshot bagian x](Output/soalwan.jpg)
-## bstree.h
+### Soal 2
+ Buatkan multilist.cpp untuk implementasi semua fungsi pada multilist.h. Buat main.cpp untuk pemanggilan fungsi-fungsi tersebut.
+## multilist.h
 ```go
-#ifndef BSTREE_H
-#define BSTREE_H
-
-typedef int infotype;
-
-struct Node {
-    infotype info;
-    Node* left;
-    Node* right;
-};
-
-typedef Node* address;
-
-address alokasi(infotype x);
-void insertNode(address &root, infotype x);
-address findNode(infotype x, address root);
-void printInOrder(address root);
-
-#endif
-```
-## bstree.cpp
-```go
-#include "bstree.h"
+#ifndef MULTILIST_H_INCLUDED
+#define MULTILIST_H_INCLUDED
 #include <iostream>
 using namespace std;
 
-// fungsi alokasi
-address alokasi(infotype x) {
-    address p = new Node;
-    p->info = x;
-    p->left = NULL;
-    p->right = NULL;
-    return p;
+#define Nil NULL
+
+typedef int infotypeanak;
+typedef int infotypeinduk;
+
+struct elemen_list_anak;
+struct elemen_list_induk;
+
+typedef elemen_list_induk *address;
+typedef elemen_list_anak *address_anak;
+
+struct elemen_list_anak {
+    infotypeanak info;
+    address_anak next;
+    address_anak prev;
+};
+
+struct listanak {
+    address_anak first;
+    address_anak last;
+};
+
+struct elemen_list_induk {
+    infotypeinduk info;
+    listanak lanak;
+    address next;
+    address prev;
+};
+
+struct listinduk {
+    address first;
+    address last;
+};
+
+//--- FUNGSI UTAMA ---
+void CreateList(listinduk &L);
+void CreateListAnak(listanak &L);
+address alokasiInduk(infotypeinduk x);
+address_anak alokasiAnak(infotypeanak x);
+void insertLastInduk(listinduk &L, address P);
+void insertLastAnak(listanak &L, address_anak P);
+address findInduk(listinduk L, infotypeinduk x);
+void printAll(listinduk L);
+
+#endif
+
+```
+## multilist.cpp
+```go
+#include "multilist.h"
+
+void CreateList(listinduk &L) {
+    L.first = Nil;
+    L.last = Nil;
 }
 
-// prosedur insertNode (BST)
-void insertNode(address &root, infotype x) {
-    if (root == NULL) {
-        root = alokasi(x);
+void CreateListAnak(listanak &L) {
+    L.first = Nil;
+    L.last = Nil;
+}
+
+address alokasiInduk(infotypeinduk x) {
+    address P = new elemen_list_induk;
+    P->info = x;
+    CreateListAnak(P->lanak);
+    P->next = Nil;
+    P->prev = Nil;
+    return P;
+}
+
+address_anak alokasiAnak(infotypeanak x) {
+    address_anak P = new elemen_list_anak;
+    P->info = x;
+    P->next = Nil;
+    P->prev = Nil;
+    return P;
+}
+
+void insertLastInduk(listinduk &L, address P) {
+    if (L.first == Nil) {
+        L.first = P;
+        L.last = P;
     } else {
-        if (x < root->info) {
-            insertNode(root->left, x);
-        } else if (x > root->info) {
-            insertNode(root->right, x);
+        L.last->next = P;
+        P->prev = L.last;
+        L.last = P;
+    }
+}
+
+void insertLastAnak(listanak &L, address_anak P) {
+    if (L.first == Nil) {
+        L.first = P;
+        L.last = P;
+    } else {
+        L.last->next = P;
+        P->prev = L.last;
+        L.last = P;
+    }
+}
+
+address findInduk(listinduk L, infotypeinduk x) {
+    address P = L.first;
+    while (P != Nil) {
+        if (P->info == x) return P;
+        P = P->next;
+    }
+    return Nil;
+}
+
+void printAll(listinduk L) {
+    cout << "=== Data Induk & Anak ===\n";
+    address P = L.first;
+
+    while (P != Nil) {
+        cout << "Induk: " << P->info << " -> Anak: ";
+        address_anak Q = P->lanak.first;
+
+        if (Q == Nil) cout << "(kosong)";
+        while (Q != Nil) {
+            cout << Q->info << " ";
+            Q = Q->next;
         }
+        cout << endl;
+
+        P = P->next;
     }
 }
 
-// function findNode
-address findNode(infotype x, address root) {
-    if (root == NULL) return NULL;
-    else if (x == root->info) return root;
-    else if (x < root->info) return findNode(x, root->left);
-    else return findNode(x, root->right);
-}
-
-// prosedur printInOrder
-void printInOrder(address root) {
-    if (root != NULL) {
-        printInOrder(root->left);
-        cout << root->info << " ";
-        printInOrder(root->right);
-    }
-}
 ```
 ## main.cpp
 ```go
 #include <iostream>
-#include "bstree.h"
-
+#include "multilist.h"
 using namespace std;
 
 int main() {
-    cout << "Hello World!" << endl;
+    listinduk L;
+    CreateList(L);
 
-    address root = NULL;
+    // Insert induk
+    insertLastInduk(L, alokasiInduk(10));
+    insertLastInduk(L, alokasiInduk(20));
+    insertLastInduk(L, alokasiInduk(30));
 
-    insertNode(root, 1);
-    insertNode(root, 2);
-    insertNode(root, 6);
-    insertNode(root, 4);
-    insertNode(root, 5);
-    insertNode(root, 3);
-    insertNode(root, 7);
+    // Insert anak pada induk 20
+    address induk20 = findInduk(L, 20);
+    if (induk20 != Nil) {
+        insertLastAnak(induk20->lanak, alokasiAnak(101));
+        insertLastAnak(induk20->lanak, alokasiAnak(102));
+    }
 
-    printInOrder(root);
+    // Insert anak pada induk 10
+    address induk10 = findInduk(L, 10);
+    if (induk10 != Nil) {
+        insertLastAnak(induk10->lanak, alokasiAnak(201));
+    }
 
-    return 0;
+    // Print semua
+    printAll(L);
 }
+
 ```
 
 > Output
 > ![Screenshot bagian x](Output/jb1.jpg)
-Program di atas membuat Binary Search Tree (BST).
-Setiap angka dimasukkan ke tree:
-kalau lebih kecil masuk ke kiri,
-kalau lebih besar masuk ke kanan.
-Setelah semua angka dimasukkan, program mencetak tree dengan cara in-order, sehingga hasilnya muncul urut:
-1 2 3 4 5 6 7
-Itu saja inti kerjanya.
-### Soal 2
-> ![Screenshot bagian x](Output/soaltu.jpg)
-
-## main.cpp
+Program di atas membuat struktur induk–anak, di mana setiap induk punya daftar anak sendiri. Program menambah beberapa induk (10, 20, 30), lalu menambahkan anak ke induk tertentu, misalnya induk 20 mendapat anak 101 dan 102. Semua data dibuat dengan fungsi alokasi, lalu dimasukkan ke list menggunakan insert. Terakhir, program menampilkan seluruh induk beserta anak-anaknya. Intinya, program menunjukkan cara membuat dan menghubungkan list induk dengan list anak menggunakan multi linked list.
+### Soal 3
+Buatlah ADT Multi Linked list sebagai berikut di dalam file “circularlist.h”:
+## circularlist.h
 ```go
+#ifndef CIRCULARLIST_H_INCLUDED
+#define CIRCULARLIST_H_INCLUDED
+
 #include <iostream>
 using namespace std;
 
-struct Node {
-    int info;
-    Node *left, *right;
+#define Nil NULL
+
+struct infotype {
+    string nama;
+    string nim;
+    char jenis_kelamin;
+    float ipk;
 };
 
-typedef Node* address;
+struct ElmList;
+typedef ElmList* address;
 
-/*================= FUNGSI INSERT =================*/
-void insertNode(address &root, int x) {
-    if (root == NULL) {
-        root = new Node;
-        root->info = x;
-        root->left = root->right = NULL;
-    } else if (x < root->info) {
-        insertNode(root->left, x);
+struct ElmList {
+    infotype info;
+    address next;
+};
+
+struct List {
+    address first;
+};
+
+// ==== FUNGSI DAN PROSEDUR ====
+void createList(List &L);
+address alokasi(infotype x);
+void dealokasi(address P);
+
+void insertFirst(List &L, address P);
+void insertAfter(List &L, address Prec, address P);
+void insertLast(List &L, address P);
+
+void deleteFirst(List &L, address &P);
+void deleteAfter(List &L, address Prec, address &P);
+void deleteLast(List &L, address &P);
+
+address findElm(List L, infotype x);
+void printInfo(List L);
+
+#endif
+
+
+```
+## circularlist.cpp
+```go
+#include "circularlist.h"
+
+void createList(List &L) {
+    L.first = Nil;
+}
+
+address alokasi(infotype x) {
+    address P = new ElmList;
+    P->info = x;
+    P->next = Nil;
+    return P;
+}
+
+void dealokasi(address P) {
+    delete P;
+}
+
+void insertFirst(List &L, address P) {
+    if (L.first == Nil) {
+        L.first = P;
+        P->next = P; // circular
     } else {
-        insertNode(root->right, x);
+        address last = L.first;
+        while (last->next != L.first) {
+            last = last->next;
+        }
+        P->next = L.first;
+        last->next = P;
+        L.first = P;
     }
 }
 
-/*================= TRAVERSAL =================*/
-void InOrder(address root) {
-    if (root != NULL) {
-        InOrder(root->left);
-        cout << root->info << " - ";
-        InOrder(root->right);
+void insertAfter(List &L, address Prec, address P) {
+    if (Prec != Nil) {
+        P->next = Prec->next;
+        Prec->next = P;
     }
 }
 
-/*================= 1. hitungJumlahNode =================*/
-// mengembalikan jumlah node dalam BST
-int hitungJumlahNode(address root) {
-    if (root == NULL) return 0;
-    return 1 + hitungJumlahNode(root->left) + hitungJumlahNode(root->right);
+void insertLast(List &L, address P) {
+    if (L.first == Nil) {
+        insertFirst(L, P);
+    } else {
+        address last = L.first;
+        while (last->next != L.first) {
+            last = last->next;
+        }
+        last->next = P;
+        P->next = L.first;
+    }
 }
 
-/*================= 2. hitungTotalInfo =================*/
-// mengembalikan total penjumlahan semua info node
-int hitungTotalInfo(address root) {
-    if (root == NULL) return 0;
-    return root->info + hitungTotalInfo(root->left) + hitungTotalInfo(root->right);
+void deleteFirst(List &L, address &P) {
+    if (L.first == Nil) return;
+
+    address last = L.first;
+    while (last->next != L.first) {
+        last = last->next;
+    }
+
+    P = L.first;
+
+    if (last == L.first) { 
+        L.first = Nil;
+    } else {
+        L.first = L.first->next;
+        last->next = L.first;
+    }
 }
 
-/*================= 3. hitungKedalaman =================*/
-// mengembalikan kedalaman maksimal pohon
-int hitungKedalaman(address root) {
-    if (root == NULL) return 0;
-    int L = hitungKedalaman(root->left);
-    int R = hitungKedalaman(root->right);
-    return 1 + (L > R ? L : R);
+void deleteAfter(List &L, address Prec, address &P) {
+    if (Prec != Nil && Prec->next != Nil) {
+        P = Prec->next;
+        Prec->next = P->next;
+    }
 }
 
-/*================= MAIN =================*/
+void deleteLast(List &L, address &P) {
+    if (L.first == Nil) return;
+
+    address last = L.first;
+    address prev = Nil;
+
+    while (last->next != L.first) {
+        prev = last;
+        last = last->next;
+    }
+
+    P = last;
+
+    if (prev == Nil) {
+        L.first = Nil;
+    } else {
+        prev->next = L.first;
+    }
+}
+
+address findElm(List L, infotype x) {
+    address P = L.first;
+    if (P == Nil) return Nil;
+
+    do {
+        if (P->info.nim == x.nim)
+            return P;
+        P = P->next;
+    } while (P != L.first);
+
+    return Nil;
+}
+
+void printInfo(List L) {
+    if (L.first == Nil) {
+        cout << "List kosong\n";
+        return;
+    }
+
+    address P = L.first;
+    cout << "=== Data Mahasiswa ===\n";
+
+    do {
+        cout << P->info.nim << " - " << P->info.nama
+             << " (" << P->info.jenis_kelamin << ") | IPK: "
+             << P->info.ipk << endl;
+        P = P->next;
+    } while (P != L.first);
+}
+
+
+```
+## main.cpp
+```go
+#include <iostream>
+#include "circularlist.h"
+using namespace std;
+
+// Fungsi createData dari modul
+address createData(string nama, string nim, char jenis_kelamin, float ipk) {
+    infotype x;
+    x.nama = nama;
+    x.nim = nim;
+    x.jenis_kelamin = jenis_kelamin;
+    x.ipk = ipk;
+
+    return alokasi(x);
+}
+
 int main() {
-    cout << "Hello World" << endl;
+    List L;
+    createList(L);
 
-    address root = NULL;
+    cout << "Coba insert first, last, dan after\n";
 
-    insertNode(root,1);
-    insertNode(root,2);
-    insertNode(root,6);
-    insertNode(root,4);
-    insertNode(root,5);
-    insertNode(root,3);
-    insertNode(root,7);
+    address P1, P2;
+    infotype x;
 
-    InOrder(root);
+    insertFirst(L, createData("Danu", "04", 'L', 4.0));
+    insertLast(L, createData("Fahmi", "06", 'L', 3.45));
+    insertFirst(L, createData("Bobi", "02", 'L', 3.71));
+    insertFirst(L, createData("Ali", "01", 'L', 3.3));
+    insertLast(L, createData("Gita", "07", 'P', 3.75));
 
-    cout << "\n\n";
-    cout << "kedalaman : " << hitungKedalaman(root) << endl;
-    cout << "jumlah node : " << hitungJumlahNode(root) << endl;
-    cout << "total : " << hitungTotalInfo(root) << endl;
+    // Insert After "07"
+    x.nim = "07";
+    P1 = findElm(L, x);
+    P2 = createData("Cindi", "03", 'P', 3.5);
+    insertAfter(L, P1, P2);
+
+    // Insert After "02"
+    x.nim = "02";
+    P1 = findElm(L, x);
+    P2 = createData("Hilmi", "08", 'P', 3.3);
+    insertAfter(L, P1, P2);
+
+    // Insert After "04"
+    x.nim = "04";
+    P1 = findElm(L, x);
+    P2 = createData("Eli", "05", 'P', 3.4);
+    insertAfter(L, P1, P2);
+
+    printInfo(L);
 
     return 0;
 }
 
+
 ```
+
 > Output
 > ![Screenshot bagian x](Output/jb2.jpg)
-insertNode() → memasukkan angka ke BST.
-hitungJumlahNode() → menghitung berapa banyak node dengan cara rekursif.
-hitungTotalInfo() → menjumlahkan semua nilai node.
-hitungKedalaman() → mencari kedalaman maksimal pohon.
-InOrder() → mencetak node BST secara terurut.
-
-### Soal 3
-> ![Screenshot bagian x](Output/soaltre.jpg)
-## main.cpp
-```go
-#include <iostream>
-using namespace std;
-
-struct Node {
-    int info;
-    Node *left, *right;
-};
-
-typedef Node* address;
-
-/*=========== INSERT (Sesuai BST) ===========*/
-void insertNode(address &root, int x) {
-    if (root == NULL) {
-        root = new Node;
-        root->info = x;
-        root->left = root->right = NULL;
-    } 
-    else if (x < root->info)
-        insertNode(root->left, x);
-    else
-        insertNode(root->right, x);
-}
-
-/*=========== PRE-ORDER ===========*/
-// Root - Left - Right
-void preOrder(address root) {
-    if (root != NULL) {
-        cout << root->info << " ";
-        preOrder(root->left);
-        preOrder(root->right);
-    }
-}
-
-/*=========== POST-ORDER ===========*/
-// Left - Right - Root
-void postOrder(address root) {
-    if (root != NULL) {
-        postOrder(root->left);
-        postOrder(root->right);
-        cout << root->info << " ";
-    }
-}
-
-/*=========== MAIN PROGRAM ===========*/
-int main() {
-    address root = NULL;
-
-    // memasukkan data sesuai gambar
-    insertNode(root, 6);
-    insertNode(root, 4);
-    insertNode(root, 7);
-    insertNode(root, 2);
-    insertNode(root, 5);
-    insertNode(root, 1);
-    insertNode(root, 3);
-
-    cout << "Pre-Order   : ";
-    preOrder(root);
-
-    cout << "\nPost-Order  : ";
-    postOrder(root);
-
-    cout << endl;
-    return 0;
-}
-
-```
-> Output
-> ![Screenshot bagian x](Output/jb3.jpg)
-Program ini membuat sebuah Binary Search Tree (BST) memakai struct Node yang memiliki nilai serta pointer ke anak kiri dan kanan, kemudian data dimasukkan menggunakan fungsi insertNode sehingga bentuk tree sesuai dengan gambar soal; setelah tree terbentuk, program mencetak urutan node menggunakan dua jenis traversal, yaitu pre-order (Root–Left–Right) yang menghasilkan output 6 4 2 1 3 5 7, dan post-order (Left–Right–Root) yang menghasilkan 1 3 2 5 4 7 6, sehingga program ini menunjukkan cara membaca struktur tree dari dua arah berbeda sesuai permintaan soal.
+Program circular linked list tersebut menyimpan data mahasiswa dalam bentuk list yang ujungnya kembali ke elemen pertama sehingga membentuk lingkaran. Program membuat list kosong, lalu menambah elemen di awal, akhir, dan setelah elemen tertentu menggunakan fungsi insert. Setiap elemen berisi nama, NIM, jenis kelamin, dan IPK. Fungsi findElm dipakai untuk mencari mahasiswa berdasarkan NIM sebelum melakukan insertAfter. Setelah semua penyisipan selesai, fungsi printInfo menampilkan seluruh data mahasiswa dalam urutan circular list. Secara sederhana, program ini menunjukkan cara menambah dan menampilkan data mahasiswa menggunakan struktur circular linked list.
 
 
 ## Referensi
