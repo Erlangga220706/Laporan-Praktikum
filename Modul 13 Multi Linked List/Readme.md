@@ -296,7 +296,7 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/jb1.jpg)
+> ![Screenshot bagian x](Output/no2.jpg)
 Program di atas membuat struktur induk–anak, di mana setiap induk punya daftar anak sendiri. Program menambah beberapa induk (10, 20, 30), lalu menambahkan anak ke induk tertentu, misalnya induk 20 mendapat anak 101 dan 102. Semua data dibuat dengan fungsi alokasi, lalu dimasukkan ke list menggunakan insert. Terakhir, program menampilkan seluruh induk beserta anak-anaknya. Intinya, program menunjukkan cara membuat dan menghubungkan list induk dengan list anak menggunakan multi linked list.
 ### Soal 3
 Buatlah ADT Multi Linked list sebagai berikut di dalam file “circularlist.h”:
@@ -539,16 +539,16 @@ int main() {
 ```
 
 > Output
-> ![Screenshot bagian x](Output/jb2.jpg)
+> ![Screenshot bagian x](Output/no3.jpg)
 Program circular linked list tersebut menyimpan data mahasiswa dalam bentuk list yang ujungnya kembali ke elemen pertama sehingga membentuk lingkaran. Program membuat list kosong, lalu menambah elemen di awal, akhir, dan setelah elemen tertentu menggunakan fungsi insert. Setiap elemen berisi nama, NIM, jenis kelamin, dan IPK. Fungsi findElm dipakai untuk mencari mahasiswa berdasarkan NIM sebelum melakukan insertAfter. Setelah semua penyisipan selesai, fungsi printInfo menampilkan seluruh data mahasiswa dalam urutan circular list. Secara sederhana, program ini menunjukkan cara menambah dan menampilkan data mahasiswa menggunakan struktur circular linked list.
 
 
 ## Referensi
-1.https://www.geeksforgeeks.org/binary-tree-data-structure/
-2.https://www.geeksforgeeks.org/binary-search-tree-data-structure/
-3.https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
-4.https://www.javatpoint.com/binary-search-tree
-5.https://www.w3schools.com/dsa/dsa_data_trees.php
+1.https://www.geeksforgeeks.org/introduction-to-multi-linked-list/
+2.https://www.geeksforgeeks.org/linked-list-of-linked-list/
+3.https://www.javatpoint.com/ds-linked-list
+4.https://www.studytonight.com/data-structures/linked-list
+5.https://www.programiz.com/dsa/linked-list
 
 
 
