@@ -5,197 +5,250 @@
 Graph merupakan himpunan tidak kosong dari node (vertec) dan garis penghubung (edge). Contoh sederhana tentang graph, yaitu antara Tempat Kost Anda dengan Common Lab. Tempat Kost Anda
 dan Common Lab merupakan node (vertec). Jalan yang menghubungkan tempat Kost dan Common Lab merupakan garis penghubung antara keduanya (edge).
 ## Guide
-```
+## graph.h
+```go
+#ifndef GRAF_H_INCLUDED
+#define GRAF_H_INCLUDED
+
 #include <iostream>
 using namespace std;
 
-struct Node
+typedef char infoGraph;
+
+struct ElmNode;
+struct ElmEdge;
+
+typedef ElmNode *adrNode;
+typedef ElmEdge *adrEdge;
+
+struct ElmNode
 {
-    int data;
-    Node *kiri, *kanan;
+    infoGraph info;
+    int visited;
+    adrEdge firstEdge;
+    adrNode next;
 };
 
-Node *buatNode(int nilai)
+struct ElmEdge
 {
-    Node *baru = new Node();
-    baru->data = nilai;
-    baru->kiri = baru->kanan = NULL;
-    return baru;
+    adrNode node;
+    adrEdge next;
+};
+
+struct Graph
+{
+    adrNode first;
+};
+
+// PRIMITIF GRAPH
+void CreateGraph(Graph &G);
+adrNode AllocateNode(infoGraph X);
+adrEdge AllocateEdge(adrNode N);
+
+void InsertNode(Graph &G, infoGraph X);
+adrNode FindNode(Graph G, infoGraph X);
+
+void ConnectNode(Graph &G, infoGraph A, infoGraph B);
+
+void PrintInfoGraph(Graph G);
+
+// Traversal
+void ResetVisited(Graph &G);
+void PrintDFS(Graph &G, adrNode N);
+void PrintBFS(Graph &G, adrNode N);
+
+#endif
+
+
+```
+## graph.cpp
+```go
+#include "graf.h"
+#include <queue>
+#include <stack>
+
+void CreateGraph(Graph &G)
+{
+    G.first = NULL;
 }
 
-Node *insert(Node *root, int nilai)
+adrNode AllocateNode(infoGraph X)
 {
-    if (root == NULL)
-        return buatNode(nilai);
-    
-    if (nilai < root->data)
-        root->kiri = insert(root->kiri, nilai);
-    else if (nilai > root->data)
-        root->kanan = insert(root->kanan, nilai);
-
-    return root;
+    adrNode P = new ElmNode;
+    P->info = X;
+    P->visited = 0;
+    P->firstEdge = NULL;
+    P->next = NULL;
+    return P;
 }
 
-Node *search(Node *root, int nilai)
+adrEdge AllocateEdge(adrNode N)
 {
-    if (root == NULL || root->data == nilai)
-        return root;
-
-    if (nilai < root->data)
-        return search(root->kiri, nilai);
-
-    return search(root->kanan, nilai);
+    adrEdge P = new ElmEdge;
+    P->node = N;
+    P->next = NULL;
+    return P;
 }
 
-Node *nilaiTerkecil(Node *node)
+void InsertNode(Graph &G, infoGraph X)
 {
-    Node *current = node;
-    while (current && current->kiri != NULL)
-        current = current->kiri;
-
-        return current;
+    adrNode P = AllocateNode(X);
+    P->next = G.first;
+    G.first = P;
 }
 
-Node *hapus(Node *root, int nilai)
+adrNode FindNode(Graph G, infoGraph X)
 {
-    if (root == NULL)
-        return root;
-
-    if (nilai < root->data)
-        root->kiri = hapus(root->kiri, nilai);
-    else if (nilai > root->data)
-        root->kanan = hapus(root->kanan, nilai);
-    else
+    adrNode P = G.first;
+    while (P != NULL)
     {
-        if (root->kiri == NULL)
+        if (P->info == X)
+            return P;
+        P = P->next;
+    }
+    return NULL;
+}
+
+void ConnectNode(Graph &G, infoGraph A, infoGraph B)
+{
+    adrNode N1 = FindNode(G, A);
+    adrNode N2 = FindNode(G, B);
+
+    if (N1 == NULL || N2 == NULL)
+    {
+        cout << "Node tidak ditemukan!\n";
+        return;
+    }
+
+    // Buat edge dari N1 ke N2
+    adrEdge E1 = AllocateEdge(N2);
+    E1->next = N1->firstEdge;
+    N1->firstEdge = E1;
+
+    // Karena undirected → buat edge balik
+    adrEdge E2 = AllocateEdge(N1);
+    E2->next = N2->firstEdge;
+    N2->firstEdge = E2;
+}
+
+void PrintInfoGraph(Graph G)
+{
+    adrNode P = G.first;
+    while (P != NULL)
+    {
+        cout << P->info << " -> ";
+        adrEdge E = P->firstEdge;
+        while (E != NULL)
         {
-            Node *temp = root->kanan;
-            delete root;
-            return temp;
+            cout << E->node->info << " ";
+            E = E->next;
         }
-        else if (root->kanan == NULL){
-            Node *temp = root->kiri;
-            delete root;
-            return temp;
+        cout << endl;
+        P = P->next;
+    }
+}
+
+void ResetVisited(Graph &G)
+{
+    adrNode P = G.first;
+    while (P != NULL)
+    {
+        P->visited = 0;
+        P = P->next;
+    }
+}
+
+void PrintDFS(Graph &G, adrNode N)
+{
+    if (N == NULL)
+        return;
+
+    N->visited = 1;
+    cout << N->info << " ";
+
+    adrEdge E = N->firstEdge;
+    while (E != NULL)
+    {
+        if (E->node->visited == 0)
+        {
+            PrintDFS(G, E->node);
         }
-        Node *temp = nilaiTerkecil(root->kanan);
-        root->data = temp->data;
-        root->kanan = hapus(root->kanan, temp->data);
-    }
-    return root;
-}
-
-Node *update(Node *root, int Lama, int baru)
-{
-    if (search(root, Lama) != NULL)
-    {
-        root = hapus(root, Lama);
-        root = insert(root, baru);
-        cout << "Data " << Lama << " diupdate menjadi " << baru << endl;
-    }
-    else
-    {
-        cout << "Data " << Lama << " tidak ditemukan!" << endl;
-    }
-    return root;
-}
-
-void preOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        cout << root->data << " ";
-        preOrder(root->kiri);
-        preOrder(root->kanan);
+        E = E->next;
     }
 }
 
-void inOrder(Node *root)
+void PrintBFS(Graph &G, adrNode N)
 {
-    if (root != NULL)
+    if (N == NULL)
+        return;
+
+    queue<adrNode> Q;
+    Q.push(N);
+
+    while (!Q.empty())
     {
-        inOrder(root->kiri);
-        cout << root->data << " ";
-        inOrder(root->kanan);
+        adrNode curr = Q.front();
+        Q.pop();
+
+        if (curr->visited == 0)
+        {
+            curr->visited = 1;
+            cout << curr->info << " ";
+
+            adrEdge E = curr->firstEdge;
+            while (E != NULL)
+            {
+                if (E->node->visited == 0)
+                {
+                    Q.push(E->node);
+                }
+                E = E->next;
+            }
+        }
     }
-}
-
-void postOrder(Node *root)
-{
-    if (root != NULL)
-    {
-        postOrder(root->kiri);
-        postOrder(root->kanan);
-        cout << root->data << " ";
-    }
-}
-
-int main()
-{
-    Node *root = NULL;
-
-    cout << "=== 1. INSERT DATA ===" << endl;
-    root = insert(root, 10);
-    insert(root, 5);
-    insert(root, 20);
-    insert(root, 3);
-    insert(root, 7);
-    insert(root, 15);
-    insert(root, 25);
-    cout << "Data berhasil dimasukan.\n" << endl;
-
-    cout << "=== 2. TAMPILKAN TREE (TRAVELSAL) ===" << endl;
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
-
-    cout << "=== 3. TEST SEARCH ===" << endl;
-    int cari1 = 7, cari2 = 99;
-    cout << "Cari " << cari1 << ": " << (search(root,cari1) ? "Ketemu" : "Tidak Aada") << endl;
-    cout << "Cari " << cari2 << ": " << (search(root,cari2) ? "Ketemu" : "Tidak Aada") << endl;
-    cout << endl;
-
-    cout << "=== 4. TEST UPDATE ===" << endl;
-    root = update(root, 5, 8);
-    cout << "Hasil Order setelah update: ";
-    cout << endl;
-    cout << endl;
-
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
-
-    cout << "== 5. TEST DELETE ===" << endl;
-    cout << "Menghapus angka 20..." << endl;
-    root = hapus(root, 20);
-
-    cout << "PreOrder : ";
-    preOrder(root);
-    cout << endl;
-    cout << "InOrder : ";
-    inOrder(root);
-    cout << endl;
-    cout << "PostOrder : ";
-    postOrder(root);
-    cout << "\n" << endl;
-
-    return 0;
 }
 
 ```
+## main.cpp
+```go
+#include "graf.h"
+#include "graf.cpp"
+#include <iostream>
+using namespace std;
 
+int main()
+{
+    Graph G;
+    CreateGraph(G);
+
+    // Tambah node
+    InsertNode(G, 'A');
+    InsertNode(G, 'B');
+    InsertNode(G, 'C');
+    InsertNode(G, 'D');
+    InsertNode(G, 'E');
+
+    // Hubungkan node (graph tidak berarah)
+    ConnectNode(G, 'A', 'B');
+    ConnectNode(G, 'A', 'C');
+    ConnectNode(G, 'B', 'D');
+    ConnectNode(G, 'C', 'E');
+
+    cout << "=== Struktur Graph ===\n";
+    PrintInfoGraph(G);
+
+    cout << "\n=== DFS dari Node A ===\n";
+    ResetVisited(G);
+    PrintDFS(G, FindNode(G, 'A'));
+
+    cout << "\n\n=== BFS dari Node A ===\n";
+    ResetVisited(G);
+    PrintBFS(G, FindNode(G, 'A'));
+
+    cout << endl;
+    return 0;
+}
+```
 ## Unguide
 
 ### Soal 1
